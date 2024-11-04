@@ -1,6 +1,5 @@
 # API REST - Léo Oficina mecânica
 
-
 ## Como rodar o projeto?
 
 1. Executar ```cd api``` no terminal;
@@ -13,4 +12,3 @@ A primeira etapa do projeto é consolidar o back-end. Logo, será necessário um
 
 Contém a API do projeto desenvolvida na arquiteura REST e com Node.js
 
-### Pasta Client

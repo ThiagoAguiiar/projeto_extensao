@@ -1,4 +1,5 @@
 import { z } from "zod";
+
 import bcrypt from "bcrypt";
 
 const email = z.string().trim().email("Insira um email válido");

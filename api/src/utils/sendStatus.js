@@ -1,5 +1,5 @@
-const sendStatus = (res, status, mensagem, data = null) => {
-  return res.status(status).send({ data, mensagem, status });
+const sendStatus = (res, status, message, data = null) => {
+  return res.status(status).send({ data, message, status });
 };
 
 export default sendStatus;

@@ -1,14 +1,16 @@
 import express from "express";
 import dotenv from "dotenv";
 import bodyParser from "body-parser";
+import cors from "cors";
 
 const app = express();
 
-const iniciarExpress = () => {
-  dotenv.config();
+app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-  app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({ extended: true }));
+const initExpress = () => {
+  dotenv.config();
 
   const port = process.env.PORT || 3000;
 
@@ -20,4 +22,4 @@ const iniciarExpress = () => {
   return app;
 };
 
-export default iniciarExpress;
+export default initExpress;
