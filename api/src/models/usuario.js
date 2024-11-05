@@ -1,6 +1,33 @@
 import connection from "../config/db.js";
+import { hashPassword } from "../utils/validators.js";
 
-/* Model usuário - controle de quem acessa o sistema */
+/* [GET] */
+export const getUsuarios = () => {
+  return new Promise((resolve, reject) => {
+    try {
+      connection.connect();
+
+      const query = `SELECT nome, email, ativo, telefone, idUsuario FROM usuario`;
+
+      connection.query(query, (err, result) => {
+        if (err) {
+          console.log("ERRO AO BUSCAR USUÁRIOS: " + err);
+          return reject(err);
+        }
+
+        result = result.map((item) => {
+          return { ...item, ativo: item.ativo === 1 };
+        });
+
+        resolve(result);
+      });
+    } catch (err) {
+      reject(err);
+    }
+  });
+};
+
+/* [GET] */
 export const getUsuarioEmail = (email) => {
   return new Promise((resolve, reject) => {
     try {
@@ -21,18 +48,16 @@ export const getUsuarioEmail = (email) => {
   });
 };
 
-export const getUsuarioNome = (nome) => {
+/* [PUT] */
+export const putUsuario = (usuario) => {
   return new Promise((resolve, reject) => {
     try {
       connection.connect();
 
-      const query = `SELECT * FROM usuario WHERE nome LIKE ?`;
+      const query = "UPDATE usuario SET ? WHERE email = ?";
 
-      connection.query(query, [nome], (err, result) => {
-        if (err) {
-          console.log("ERRO AO BUSCAR USUÁRIO PELO NOME: " + err);
-          return reject(err);
-        }
+      connection.query(query, [usuario, usuario.email], (err, result) => {
+        if (err) return reject(err);
 
         resolve(result);
       });
@@ -42,18 +67,29 @@ export const getUsuarioNome = (nome) => {
   });
 };
 
-export const putUsuarioToken = (email, token) => {
+export const postUsuario = async (usuario) => {
   return new Promise((resolve, reject) => {
     try {
       connection.connect();
 
-      const query = "UPDATE usuario SET token = ? WHERE email = ?";
+      const query =
+        "INSERT INTO usuario(nome, email, senha, telefone, ativo) VALUES(?, ?, ?, ?, ?)";
 
-      connection.query(query, [token, email], (err, result) => {
-        if (err) return reject(err);
+      connection.query(
+        query,
+        [
+          usuario.nome,
+          usuario.email,
+          hashPassword(usuario.senha),
+          usuario.telefone,
+          usuario.ativo,
+        ],
+        (err, result) => {
+          if (err) return reject(err);
 
-        resolve(result);
-      });
+          resolve(result);
+        }
+      );
     } catch (err) {
       reject(err);
     }

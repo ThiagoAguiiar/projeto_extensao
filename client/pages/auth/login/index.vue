@@ -34,12 +34,11 @@
       size="md"
     />
 
-    <UAlert
-      v-if="models.error"
-      :description="models.error.message"
-      color="red"
-      variant="soft"
-    />
+    <UAlert v-if="models.error" color="red" variant="soft">
+      <template #description>
+        <p class="text-[13px] leading-[18px]">{{ models.error.message }}</p>
+      </template>
+    </UAlert>
   </UForm>
 </template>
 
@@ -88,7 +87,7 @@ const handleSubmit = async () => {
     if (error.value) models.error = error.value;
   } catch (err: any) {
     models.error = {
-      message: "Erro ao realizar login. Tente novamente mais tarde",
+      message: Status.INTERNAL_ERROR,
       data: null,
       status: 400,
     };

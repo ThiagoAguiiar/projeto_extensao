@@ -1,3 +1,5 @@
+import handleResponse from "~/utils/response";
+
 export default defineStore("useAuth", () => {
   const runtime = useRuntimeConfig();
 
@@ -15,6 +17,7 @@ export default defineStore("useAuth", () => {
       data.value = response;
     } catch (err: any) {
       error.value = err.response._data;
+      handleResponse(err.response._data.status);
     }
 
     return { data, error };
@@ -27,5 +30,20 @@ export default defineStore("useAuth", () => {
     navigateTo("/auth/login");
   };
 
-  return { login, logout };
+  const getHeaders = () => {
+    const cookie = useCookie(runtime.public.authToken).value;
+
+    if (cookie) {
+      return new Headers({
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${cookie}`,
+      });
+    }
+
+    return new Headers({
+      "Content-Type": "application/json",
+    });
+  };
+
+  return { login, logout, getHeaders };
 });

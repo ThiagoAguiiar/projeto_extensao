@@ -1,8 +1,12 @@
 import sendStatus from "../utils/sendStatus.js";
-
-import { getUsuarioEmail, putUsuarioToken } from "../models/usuario.js";
-import { validateEmail, validateInput, verifyPassword } from "../utils/validators.js";
+import { getUsuarioEmail, putUsuario } from "../models/usuario.js";
 import { createToken } from "../utils/token.js";
+
+import {
+  validateEmail,
+  validateInput,
+  verifyPassword,
+} from "../utils/validators.js";
 
 const authController = () => {
   return {
@@ -22,7 +26,9 @@ const authController = () => {
           };
 
           const token = createToken(tokenData, "3h");
-          await putUsuarioToken(usuario.email, token);
+          usuario.token = token;
+
+          await putUsuario(usuario);
 
           return sendStatus(res, 200, "Login realizado com sucesso!", {
             token,

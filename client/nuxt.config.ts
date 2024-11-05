@@ -15,4 +15,11 @@ export default defineNuxtConfig({
   imports: {
     dirs: ["./types"],
   },
+
+  router: {
+    options: {
+      linkExactActiveClass: "exact-active-path",
+      linkActiveClass: "active-path",
+    },
+  },
 });
