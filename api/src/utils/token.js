@@ -1,10 +1,10 @@
 import jwt from "jsonwebtoken";
 
-export const createToken = (data, expires) => {
+export const criarToken = (data, expires) => {
   return jwt.sign(data, process.env.JWT_SECRET, { expiresIn: expires });
 };
 
-export const verifyToken = (token) => {
+export const verificarToken = (token) => {
   try {
     jwt.verify(token, process.env.JWT_SECRET);
     return true;
@@ -13,7 +13,7 @@ export const verifyToken = (token) => {
   }
 };
 
-export const decryptToken = (token) => {
+export const decriptografarToken = (token) => {
   try {
     return jwt.verify(token, process.env.JWT_SECRET);
   } catch (err) {

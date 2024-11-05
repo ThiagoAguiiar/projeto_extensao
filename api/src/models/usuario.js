@@ -1,25 +1,30 @@
 import connection from "../config/db.js";
-import { hashPassword } from "../utils/validators.js";
+import { hashSenha } from "../utils/validators.js";
 
 /* [GET] */
-export const getUsuarios = () => {
+export const getUsuarios = (ativo = null) => {
   return new Promise((resolve, reject) => {
     try {
       connection.connect();
+      let query;
+      let params = [];
 
-      const query = `SELECT nome, email, ativo, telefone, idUsuario FROM usuario`;
+      if (ativo == null) {
+        query = `SELECT nome, email, ativo, telefone, idUsuario FROM usuario`;
+      } else {
+        query = `SELECT nome, email, ativo, telefone, idUsuario FROM usuario WHERE ativo = ?`;
+        params.push(ativo);
+      }
 
-      connection.query(query, (err, result) => {
-        if (err) {
-          console.log("ERRO AO BUSCAR USUÁRIOS: " + err);
-          return reject(err);
-        }
+      connection.query(query, params, (err, result) => {
+        if (err) return reject(err);
 
+        // Mapeia o resultado para alterar o valor de ativo para booleano
         result = result.map((item) => {
           return { ...item, ativo: item.ativo === 1 };
         });
 
-        resolve(result);
+        return resolve(result);
       });
     } catch (err) {
       reject(err);
@@ -28,19 +33,24 @@ export const getUsuarios = () => {
 };
 
 /* [GET] */
-export const getUsuarioEmail = (email) => {
+export const getUsuarioEmail = (email, ativo = null) => {
   return new Promise((resolve, reject) => {
     try {
-      connection.connect();
+      let query;
+      let params = [email];
 
-      const query = `SELECT idUsuario, nome, email, senha FROM usuario WHERE email = ?`;
+      if (ativo === null) {
+        query = `SELECT idUsuario, nome, email, senha FROM usuario WHERE email = ?`;
+      } else {
+        query = `SELECT idUsuario, nome, email, senha FROM usuario WHERE email = ? AND ativo = ?`;
+        params.push(ativo);
+      }
 
-      connection.query(query, [email], (err, result) => {
+      connection.query(query, params, (err, result) => {
         if (err) return reject(err);
+        if (result.length > 0) return resolve(result[0]);
 
-        if (result.length > 0) resolve(result[0]);
-
-        resolve(null);
+        return resolve(null);
       });
     } catch (err) {
       reject(err);
@@ -58,8 +68,7 @@ export const putUsuario = (usuario) => {
 
       connection.query(query, [usuario, usuario.email], (err, result) => {
         if (err) return reject(err);
-
-        resolve(result);
+        return resolve(result);
       });
     } catch (err) {
       reject(err);
@@ -67,29 +76,48 @@ export const putUsuario = (usuario) => {
   });
 };
 
+/* [POST] */
 export const postUsuario = async (usuario) => {
   return new Promise((resolve, reject) => {
     try {
       connection.connect();
 
       const query =
-        "INSERT INTO usuario(nome, email, senha, telefone, ativo) VALUES(?, ?, ?, ?, ?)";
+        "INSERT INTO usuario(nome, email, senha, telefone, ativo, dataCriacao) VALUES(?, ?, ?, ?, ?, ?)";
 
       connection.query(
         query,
         [
           usuario.nome,
           usuario.email,
-          hashPassword(usuario.senha),
+          hashSenha(usuario.senha),
           usuario.telefone,
           usuario.ativo,
+          usuario.dataCriacao,
         ],
         (err, result) => {
           if (err) return reject(err);
-
-          resolve(result);
+          return resolve(result);
         }
       );
+    } catch (err) {
+      reject(err);
+    }
+  });
+};
+
+/* [DELETE] */
+export const deleteUsuario = (id) => {
+  return new Promise((resolve, reject) => {
+    try {
+      connection.connect();
+
+      const query = "DELETE FROM usuario WHERE idUsuario = ?";
+
+      connection.query(query, [id], (err, result) => {
+        if (err) return reject(err);
+        return resolve(result);
+      });
     } catch (err) {
       reject(err);
     }

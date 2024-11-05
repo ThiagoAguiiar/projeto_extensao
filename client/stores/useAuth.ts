@@ -1,3 +1,4 @@
+import { jwtDecode } from "jwt-decode";
 import handleResponse from "~/utils/response";
 
 export default defineStore("useAuth", () => {
@@ -43,6 +44,21 @@ export default defineStore("useAuth", () => {
     return new Headers({
       "Content-Type": "application/json",
     });
+  };
+
+  const decodeToken = () => {
+    const cookie = useCookie(runtime.public.authToken).value;
+
+    if (cookie) {
+      const token = useCookie(runtime.public.authToken).value;
+
+      if (token) {
+        const decoded = jwtDecode(token);
+        return decoded;
+      }
+    }
+
+    return null;
   };
 
   return { login, logout, getHeaders };

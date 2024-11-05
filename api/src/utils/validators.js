@@ -6,22 +6,22 @@ const email = z.string().trim().email("Insira um email válido");
 const input = z.string().trim().min(1, "Campo obrigatório");
 const telefone = z.string().trim().min(15, "Telefone inválido").max(15);
 
-export const validateEmail = (valor) => {
+export const validarEmail = (valor) => {
   return email.safeParse(valor).success;
 };
 
-export const validateInput = (valor) => {
+export const validarInput = (valor) => {
   return input.safeParse(valor).success;
 };
 
-export const validateTelefone = (valor) => {
+export const validarTelefone = (valor) => {
   return telefone.safeParse(valor).success;
 };
 
-export const verifyPassword = (senha, senhaHash) => {
+export const verificarSenha = (senha, senhaHash) => {
   return bcrypt.compareSync(senha, senhaHash);
 };
 
-export const hashPassword = (senha) => {
+export const hashSenha = (senha) => {
   return bcrypt.hashSync(senha, 10);
 };

@@ -1,27 +1,31 @@
 import authController from "../controllers/authController.js";
-import adminController from "../controllers/adminController.js";
 import authMiddleware from "../middleware/authMiddleware.js";
-import sendStatus from "../utils/sendStatus.js";
+import enviarStatus from "../utils/enviarStatus.js";
+import usuarioController from "../controllers/usuarioController.js";
 
 const router = (app) => {
   const { login } = authController();
-  const { getUsuarios, postUsuario } = adminController();
+  const { getUsuarios, postUsuario, deleteUsuario } = usuarioController();
 
   app.post("/login", (req, res) => {
     return login(req, res);
   });
 
   app.get("/hello", (req, res) => {
-    return sendStatus(res, 200, "Hello World!");
+    return enviarStatus(res, 200, "Hello World!");
   });
 
-  // Rotas protegidas pelo Middleware
+  // Rotas protegidas pelo Middleware (USUÁRIOS)
   app.get("/admin/usuarios", authMiddleware, (req, res) => {
     return getUsuarios(req, res);
   });
 
   app.post("/admin/usuarios", authMiddleware, (req, res) => {
     return postUsuario(req, res);
+  });
+
+  app.delete("/admin/usuarios", authMiddleware, (req, res) => {
+    return deleteUsuario(req, res);
   });
 };
 

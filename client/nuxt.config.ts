@@ -22,4 +22,6 @@ export default defineNuxtConfig({
       linkActiveClass: "active-path",
     },
   },
+
+  ssr: false,
 });

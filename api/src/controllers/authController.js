@@ -1,11 +1,11 @@
-import sendStatus from "../utils/sendStatus.js";
+import enviarStatus from "../utils/enviarStatus.js";
 import { getUsuarioEmail, putUsuario } from "../models/usuario.js";
-import { createToken } from "../utils/token.js";
+import { criarToken, decriptografarToken } from "../utils/token.js";
 
 import {
-  validateEmail,
-  validateInput,
-  verifyPassword,
+  validarEmail,
+  validarInput,
+  verificarSenha,
 } from "../utils/validators.js";
 
 const authController = () => {
@@ -13,36 +13,43 @@ const authController = () => {
     login: async (req, res) => {
       const { email, senha } = req.body;
 
-      const status = validateEmail(email) && validateInput(senha);
+      const status = validarEmail(email) && validarInput(senha);
 
       if (status) {
-        const usuario = await getUsuarioEmail(email);
+        // Busca usuário com email e que esteja ativo
+        const usuario = await getUsuarioEmail(email, true);
 
-        if (usuario != null && verifyPassword(senha, usuario.senha)) {
+        // Se houver usuário e a senha for válida
+        if (usuario != null && verificarSenha(senha, usuario.senha)) {
+          // Criação do token
           const tokenData = {
             email: usuario.email,
             nome: usuario.nome,
             id: usuario.idUsuario,
           };
 
-          const token = createToken(tokenData, "3h");
-          usuario.token = token;
+          const token = criarToken(tokenData, "3h");
 
+          usuario.token = token;
+          usuario.ultimoLogin = new Date();
+
+          // Salva o token e a data de último login no banco de dados
           await putUsuario(usuario);
 
-          return sendStatus(res, 200, "Login realizado com sucesso!", {
+          // Retorna para o frontend o token do usuário
+          return enviarStatus(res, 200, "Login realizado com sucesso!", {
             token,
           });
         }
 
-        return sendStatus(
+        return enviarStatus(
           res,
           404,
           "Email ou senha inválido(s). Verifique suas credenciais e tente novamente."
         );
       }
 
-      return sendStatus(
+      return enviarStatus(
         res,
         404,
         "Email ou senha inválido(s). Verifique suas credenciais e tente novamente."

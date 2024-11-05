@@ -1,33 +1,33 @@
 <template>
   <div
-    class="min-w-[250px] w-[250px] h-full border-r border-r-gray-200 px-5 space-y-1"
+    class="h-full border-r border-r-gray-200 min-w-[250px] w-[250px] transition-all duration-300 ease-in-out"
   >
-    <div v-for="{ to, label, icon, type, click } in links">
-      <NuxtLink
-        v-if="type !== 'button'"
-        @click="click"
-        :to="to"
-        class="text-sm block flex items-center gap-x-2 p-1.5 rounded-md hover:bg-gray-100 w-full"
-      >
-        <Icon :name="icon" />
-        {{ label }}
-      </NuxtLink>
+    <div class="relative h-full space-y-1 px-5">
+      <div v-for="{ to, label, icon, type, click } in links">
+        <NuxtLink
+          v-if="type !== 'button'"
+          @click="click"
+          :to="to"
+          class="truncate text-sm flex items-center gap-x-2 p-1.5 rounded-md hover:bg-gray-100 w-full"
+        >
+          <Icon :name="icon" />
+          {{ label }}
+        </NuxtLink>
 
-      <span
-        v-else
-        @click="click"
-        class="text-sm block flex items-center gap-x-2 p-1.5 rounded-md hover:bg-gray-100 w-full cursor-pointer"
-      >
-        <Icon :name="icon" />
-        {{ label }}
-      </span>
+        <span
+          v-else
+          @click="click"
+          class="truncate text-sm flex items-center gap-x-2 p-1.5 rounded-md hover:bg-gray-100 w-full cursor-pointer"
+        >
+          <Icon :name="icon" />
+          {{ label }}
+        </span>
+      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import type { PropType } from "vue";
-
 defineProps({
   links: {
     type: Array as PropType<ISidebar[]>,

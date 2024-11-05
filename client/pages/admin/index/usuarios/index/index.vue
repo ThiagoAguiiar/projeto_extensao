@@ -3,11 +3,25 @@
     <BaseSubmenu :links="links" />
 
     <div class="flex-1 px-5 space-y-3">
-      <h2 class="text-xl font-regular">Lista de usuários do sistema</h2>
+      <div class="flex items-center justify-between">
+        <h2 class="text-xl font-regular">Lista de usuários do sistema</h2>
+
+        <UButton
+          size="xs"
+          variant="solid"
+          label="Atualizar"
+          color="white"
+          icon="tabler:refresh"
+          @click="refresh"
+        />
+      </div>
 
       <UTable v-if="data != null" :rows="data.data || []" :columns="columns">
-        <template #actions-data>
-          <UDropdown :items="options" :popper="{ placement: 'bottom-start' }">
+        <template #actions-data="{ row }">
+          <UDropdown
+            :items="options(row)"
+            :popper="{ placement: 'bottom-start' }"
+          >
             <UButton color="white" square icon="ph:dots-three-bold" />
           </UDropdown>
         </template>
@@ -24,9 +38,11 @@
 
 <script lang="ts" setup>
 const users = useUser();
+const toast = useToast();
+
 const addUser = ref(false);
 
-const { data } = await useLazyAsyncData("getUsers", () => {
+const { data, refresh } = await useLazyAsyncData("getUsers", () => {
   return users.getUsers();
 });
 
@@ -67,14 +83,39 @@ const columns = [
   },
 ];
 
-const options = [
-  [
-    {
-      label: "Excluir",
-    },
-    {
-      label: "Inativar",
-    },
-  ],
-];
+const options = (row: IGetUser) => {
+  return [
+    [
+      {
+        label: "Excluir",
+        icon: "uil:trash",
+        click: async () => {
+          const { error } = await users.deleteUser(row.email, row.idUsuario);
+
+          if (error.value) {
+            toast.add({
+              title: "Erro",
+              description: error.value.message,
+              color: "red",
+            });
+
+            return;
+          }
+
+          toast.add({
+            title: "Sucesso",
+            description: "Usuário excluído com sucesso",
+            color: "green",
+          });
+
+          await refresh();
+        },
+      },
+      {
+        label: "Inativar",
+        icon: "ic:baseline-block",
+      },
+    ],
+  ];
+};
 </script>

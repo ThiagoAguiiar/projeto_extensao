@@ -36,14 +36,33 @@ export default defineStore("useUser", () => {
 
       data.value = response;
     } catch (err: any) {
-      console.log(err.response._data.status);
       error.value = err.response._data;
-
       handleResponse(err.response._data.status);
     }
 
     return { data, error };
   };
 
-  return { getUsers, postUser };
+  const deleteUser = async (email: string, userId: number) => {
+    const data = ref<IResponse | null>(null);
+    const error = ref<IResponse | null>(null);
+
+    try {
+      const response = await $fetch<IResponse>("/admin/usuarios", {
+        method: "DELETE",
+        headers: auth.getHeaders(),
+        params: { email: email, id: userId },
+        baseURL: apiURL,
+      });
+
+      data.value = response;
+    } catch (err: any) {
+      error.value = err.response._data;
+      handleResponse(err.response._data.status);
+    }
+
+    return { data, error };
+  };
+
+  return { getUsers, postUser, deleteUser };
 });
