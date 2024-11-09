@@ -4,6 +4,7 @@ import {
   getUsuarios,
   postUsuario,
   getUsuarioId,
+  putUsuario,
 } from "../models/usuario.js";
 
 import {
@@ -24,6 +25,17 @@ const usuarioController = () => {
       }
 
       return enviarStatus(res, 200, "Nenhum usuário encontrado");
+    },
+    getUsuarioId: async (req, res) => {
+      const { id } = req.query;
+
+      if (!id) return enviarStatus(res, 400, "ID inválido");
+
+      const u = await getUsuarioId(id);
+
+      if (!u) return enviarStatus(res, 404, "Usuário não encontrado");
+
+      return enviarStatus(res, 200, "Usuário", u);
     },
     postUsuario: async (req, res) => {
       const { nome, email, senha, telefone, ativo } = req.body;
@@ -73,6 +85,10 @@ const usuarioController = () => {
         return enviarStatus(res, 400, "Email inválido");
       }
 
+      if (!id) {
+        return enviarStatus(res, 400, "Id de usuário inválido");
+      }
+
       const u = await getUsuarioEmail(email);
 
       if (!u) {
@@ -85,18 +101,37 @@ const usuarioController = () => {
         return enviarStatus(res, 500, "Ocorreu um erro ao deletar usuário");
       }
 
-      return enviarStatus(res, 200, "Usuário deletado com sucesso");
+      return enviarStatus(res, 200, "Usuário deletado com sucesso!");
     },
-    getUsuarioId: async (req, res) => {
-      const { id } = req.query;
+    putUsuario: async (req, res) => {
+      const { nome, email, telefone, ativo, idUsuario } = req.body;
 
-      if (!id) return enviarStatus(res, 400, "ID inválido");
+      const v =
+        validarEmail(email) && validarInput(nome) && validarTelefone(telefone);
 
-      const u = await getUsuarioId(id);
+      if (!v) {
+        return enviarStatus(
+          res,
+          400,
+          "Todos os campos são obrigatórios e precisam ser preenchidos"
+        );
+      }
 
-      if (!u) return enviarStatus(res, 404, "Usuário não encontrado");
+      const u = await getUsuarioEmail(email);
 
-      return enviarStatus(res, 200, "Usuário", u);
+      if (!u) {
+        return enviarStatus(res, 404, "Usuário não encontrado");
+      }
+
+      await putUsuario({
+        nome,
+        email,
+        telefone,
+        ativo,
+        idUsuario,
+      });
+
+      return enviarStatus(res, 200, "Usuário atualizado com sucesso");
     },
   };
 };

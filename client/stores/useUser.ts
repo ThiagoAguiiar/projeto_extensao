@@ -81,5 +81,26 @@ export default defineStore("useUser", () => {
     }
   };
 
-  return { getUsers, postUser, deleteUser, getUserId, addUser };
+  const putUser = async (user: IPutUser) => {
+    const data = ref<IResponse | null>(null);
+    const error = ref<IResponse | null>(null);
+
+    try {
+      const response = await $fetch<IResponse>("/admin/usuarios", {
+        method: "PUT",
+        headers: auth.getHeaders(),
+        body: user,
+        baseURL: apiURL,
+      });
+
+      data.value = response;
+    } catch (err: any) {
+      error.value = err.response._data;
+      handleResponse(err.response._data.status);
+    }
+
+    return { data, error };
+  };
+
+  return { getUsers, postUser, deleteUser, getUserId, addUser, putUser };
 });

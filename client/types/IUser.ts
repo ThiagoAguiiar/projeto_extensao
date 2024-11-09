@@ -17,3 +17,11 @@ export interface IPostUser {
   telefone: string;
   ativo: boolean;
 }
+
+export interface IPutUser {
+  email: string;
+  idUsuario: number;
+  nome: string;
+  telefone: string;
+  ativo: boolean;
+}

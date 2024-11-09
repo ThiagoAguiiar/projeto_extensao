@@ -5,8 +5,7 @@ import usuarioController from "../controllers/usuarioController.js";
 
 const router = (app) => {
   const { login } = authController();
-  const { getUsuarios, postUsuario, deleteUsuario, getUsuarioId } =
-    usuarioController();
+  const { getUsuarios, postUsuario, deleteUsuario, getUsuarioId, putUsuario } = usuarioController();
 
   app.post("/login", (req, res) => {
     return login(req, res);
@@ -31,6 +30,10 @@ const router = (app) => {
 
   app.get("/admin/usuarios/getById", authMiddleware, (req, res) => {
     return getUsuarioId(req, res);
+  });
+
+  app.put("/admin/usuarios", authMiddleware, (req, res) => {
+    return putUsuario(req, res);
   });
 };
 

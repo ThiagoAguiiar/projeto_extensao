@@ -6,7 +6,7 @@
         <h2 class="text-lg">{{ usuario?.data.nome }}</h2>
       </div>
 
-      <UForm :state="usuario.data">
+      <UForm :state="usuario.data" @submit="handleSubmit">
         <BaseGroup
           name="nome"
           label="Nome"
@@ -15,6 +15,7 @@
         >
           <UInput
             v-model="usuario.data.nome"
+            :dibabled="loading"
             class="w-[450px] max-[450px]:w-full"
           />
         </BaseGroup>
@@ -27,6 +28,7 @@
         >
           <UInput
             v-model="usuario.data.email"
+            :dibabled="loading"
             class="w-[450px] max-[450px]:w-full"
           />
         </BaseGroup>
@@ -39,6 +41,7 @@
         >
           <UInput
             v-model="usuario.data.telefone"
+            :dibabled="loading"
             v-maska="'(##) #####-####'"
             class="w-[450px] max-[450px]:w-full"
           />
@@ -63,9 +66,17 @@
             label="Cancelar"
             color="red"
             variant="soft"
+            type="button"
             @click="confirmExit"
           />
-          <UButton label="Salvar" color="black" />
+
+          <UButton
+            label="Salvar"
+            type="submit"
+            color="black"
+            :loading="loading"
+            :dibabled="loading"
+          />
         </div>
       </UForm>
     </div>
@@ -79,6 +90,9 @@
 <script lang="ts" setup>
 const u = useUser();
 const route = useRoute();
+const toast = useToast();
+
+const loading = ref(false);
 
 const { data: usuario } = await useAsyncData("getUserId", () => {
   return u.getUserId(route.params.id.toString());
@@ -89,10 +103,47 @@ const confirmExit = () => {
   if (c) navigateTo("/admin/usuarios");
 };
 
-const handleSubmit = () => {
+const handleSubmit = async () => {
   try {
+    loading.value = true;
+
+    if (usuario.value) {
+      const { data, error } = await u.putUser({
+        ativo: usuario.value.data.ativo,
+        email: usuario.value.data.email,
+        nome: usuario.value.data.nome,
+        telefone: usuario.value.data.telefone,
+        idUsuario: usuario.value.data.idUsuario,
+      });
+
+      if (data.value) {
+        toast.add({
+          title: "Sucesso",
+          description: data.value.message,
+          color: "green",
+        });
+
+        await navigateTo("/admin/usuarios");
+        await refreshNuxtData("getUsers");
+      }
+
+      if (error.value) {
+        toast.add({
+          title: "Erro",
+          description: error.value.message,
+          color: "red",
+        });
+      }
+    }
   } catch (err) {
+    console.log(err);
+    toast.add({
+      title: "Erro",
+      description: "Ocorreu um erro ao salvar as informações",
+      color: "red",
+    });
   } finally {
+    loading.value = false;
   }
 };
 </script>

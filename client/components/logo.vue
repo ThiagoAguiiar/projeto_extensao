@@ -1,3 +1,3 @@
 <template>
-  <p>Logo</p>
+  <p class="font-bold text-lg">Dashboard</p>
 </template>
