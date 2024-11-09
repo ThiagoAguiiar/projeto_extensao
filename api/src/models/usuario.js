@@ -5,7 +5,6 @@ import { hashSenha } from "../utils/validators.js";
 export const getUsuarios = (ativo = null) => {
   return new Promise((resolve, reject) => {
     try {
-      connection.connect();
       let query;
       let params = [];
 
@@ -58,12 +57,28 @@ export const getUsuarioEmail = (email, ativo = null) => {
   });
 };
 
+/* [GET] */
+export const getUsuarioId = (id) => {
+  return new Promise((resolve, reject) => {
+    try {
+      const query = `SELECT idUsuario, nome, email, ativo, telefone FROM usuario WHERE idUsuario = ?`;
+
+      connection.query(query, [id], (err, result) => {
+        if (err) return reject(err);
+        if (result.length > 0) return resolve(result[0]);
+
+        return resolve(null);
+      });
+    } catch (err) {
+      reject(err);
+    }
+  });
+};
+
 /* [PUT] */
 export const putUsuario = (usuario) => {
   return new Promise((resolve, reject) => {
     try {
-      connection.connect();
-
       const query = "UPDATE usuario SET ? WHERE email = ?";
 
       connection.query(query, [usuario, usuario.email], (err, result) => {
@@ -80,8 +95,6 @@ export const putUsuario = (usuario) => {
 export const postUsuario = async (usuario) => {
   return new Promise((resolve, reject) => {
     try {
-      connection.connect();
-
       const query =
         "INSERT INTO usuario(nome, email, senha, telefone, ativo, dataCriacao) VALUES(?, ?, ?, ?, ?, ?)";
 
@@ -110,8 +123,6 @@ export const postUsuario = async (usuario) => {
 export const deleteUsuario = (id) => {
   return new Promise((resolve, reject) => {
     try {
-      connection.connect();
-
       const query = "DELETE FROM usuario WHERE idUsuario = ?";
 
       connection.query(query, [id], (err, result) => {

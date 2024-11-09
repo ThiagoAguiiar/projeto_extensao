@@ -1,64 +1,42 @@
 <template>
-  <div class="w-full h-full flex py-7">
-    <BaseSubmenu :links="links" />
+  <div class="flex-1 px-5 space-y-3">
+    <div class="flex items-center justify-between">
+      <h2 class="text-xl font-regular">Lista de usuários do sistema</h2>
 
-    <div class="flex-1 px-5 space-y-3">
-      <div class="flex items-center justify-between">
-        <h2 class="text-xl font-regular">Lista de usuários do sistema</h2>
-
-        <UButton
-          size="xs"
-          variant="solid"
-          label="Atualizar"
-          color="white"
-          icon="tabler:refresh"
-          @click="refresh"
-        />
-      </div>
-
-      <UTable v-if="data != null" :rows="data.data || []" :columns="columns">
-        <template #actions-data="{ row }">
-          <UDropdown
-            :items="options(row)"
-            :popper="{ placement: 'bottom-start' }"
-          >
-            <UButton color="white" square icon="ph:dots-three-bold" />
-          </UDropdown>
-        </template>
-
-        <template #ativo-data="{ row }">
-          <TableBullet :ativo="row.ativo" />
-        </template>
-      </UTable>
-
-      <UsuariosAdd v-model="addUser" />
+      <UButton
+        size="xs"
+        variant="solid"
+        label="Atualizar"
+        color="white"
+        icon="tabler:refresh"
+        @click="refresh"
+      />
     </div>
+
+    <UTable v-if="data != null" :rows="data.data || []" :columns="columns">
+      <template #actions-data="{ row }">
+        <UDropdown
+          :items="options(row)"
+          :popper="{ placement: 'bottom-start' }"
+        >
+          <UButton color="white" square icon="ph:dots-three-bold" />
+        </UDropdown>
+      </template>
+
+      <template #ativo-data="{ row }">
+        <TableBullet :ativo="row.ativo" />
+      </template>
+    </UTable>
   </div>
 </template>
 
 <script lang="ts" setup>
-const users = useUser();
+const u = useUser();
 const toast = useToast();
 
-const addUser = ref(false);
-
 const { data, refresh } = await useLazyAsyncData("getUsers", () => {
-  return users.getUsers();
+  return u.getUsers();
 });
-
-const links: ISidebar[] = [
-  {
-    label: "Lista de usuários",
-    to: "/admin/usuarios",
-    icon: "fluent:list-24-regular",
-  },
-  {
-    label: "Cadastrar usuário",
-    icon: "fluent:add-24-regular",
-    type: "button",
-    click: () => (addUser.value = true),
-  },
-];
 
 const columns = [
   {
@@ -68,6 +46,7 @@ const columns = [
   {
     label: "Nome",
     key: "nome",
+    sortable: true,
   },
   {
     label: "Email",
@@ -87,10 +66,15 @@ const options = (row: IGetUser) => {
   return [
     [
       {
+        label: "Visualizar",
+        icon: "fluent:eye-24-regular",
+        click: () => navigateTo("/admin/usuarios/" + row.idUsuario),
+      },
+      {
         label: "Excluir",
-        icon: "uil:trash",
+        icon: "fluent:delete-24-regular",
         click: async () => {
-          const { error } = await users.deleteUser(row.email, row.idUsuario);
+          const { error } = await u.deleteUser(row.email, row.idUsuario);
 
           if (error.value) {
             toast.add({
@@ -110,10 +94,6 @@ const options = (row: IGetUser) => {
 
           await refresh();
         },
-      },
-      {
-        label: "Inativar",
-        icon: "ic:baseline-block",
       },
     ],
   ];

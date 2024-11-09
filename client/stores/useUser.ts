@@ -3,6 +3,8 @@ import handleResponse from "~/utils/response";
 export default defineStore("useUser", () => {
   const auth = useAuth();
 
+  const addUser = ref(false);
+
   const {
     public: { apiURL },
   } = useRuntimeConfig();
@@ -64,5 +66,20 @@ export default defineStore("useUser", () => {
     return { data, error };
   };
 
-  return { getUsers, postUser, deleteUser };
+  const getUserId = async (id: string) => {
+    try {
+      return await $fetch<IResponse<IGetUser>>("admin/usuarios/getById", {
+        method: "GET",
+        headers: auth.getHeaders(),
+        params: { id },
+        baseURL: apiURL,
+      });
+    } catch (err: any) {
+      console.log(err.response._data.status);
+      handleResponse(err.response._data.status);
+      return null;
+    }
+  };
+
+  return { getUsers, postUser, deleteUser, getUserId, addUser };
 });

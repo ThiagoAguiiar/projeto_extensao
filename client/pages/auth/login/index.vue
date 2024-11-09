@@ -3,7 +3,7 @@
     @submit="handleSubmit"
     :schema="schema"
     :state="models"
-    class="w-full p-3 space-y-2.5"
+    class="w-full p-3 space-y-2.5 anime-left"
   >
     <div>
       <h1 class="text-xl font-bold">Login</h1>

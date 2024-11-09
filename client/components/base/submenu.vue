@@ -37,7 +37,7 @@ defineProps({
 </script>
 
 <style scoped>
-.active-path {
+.exact-active-path {
   background: #f3f4f6;
 }
 </style>

@@ -3,6 +3,7 @@ import {
   getUsuarioEmail,
   getUsuarios,
   postUsuario,
+  getUsuarioId,
 } from "../models/usuario.js";
 
 import {
@@ -85,6 +86,17 @@ const usuarioController = () => {
       }
 
       return enviarStatus(res, 200, "Usuário deletado com sucesso");
+    },
+    getUsuarioId: async (req, res) => {
+      const { id } = req.query;
+
+      if (!id) return enviarStatus(res, 400, "ID inválido");
+
+      const u = await getUsuarioId(id);
+
+      if (!u) return enviarStatus(res, 404, "Usuário não encontrado");
+
+      return enviarStatus(res, 200, "Usuário", u);
     },
   };
 };

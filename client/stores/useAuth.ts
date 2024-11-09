@@ -53,7 +53,7 @@ export default defineStore("useAuth", () => {
       const token = useCookie(runtime.public.authToken).value;
 
       if (token) {
-        const decoded = jwtDecode(token);
+        const decoded = jwtDecode<IDecodeToken>(token);
         return decoded;
       }
     }
@@ -61,5 +61,5 @@ export default defineStore("useAuth", () => {
     return null;
   };
 
-  return { login, logout, getHeaders };
+  return { login, logout, getHeaders, decodeToken };
 });

@@ -25,17 +25,17 @@ const sidebarLinks = [
     icon: "fluent:person-24-regular",
   },
   {
-    to: "/",
+    to: "/admin/clientes",
     label: "Clientes",
     icon: "fluent:people-24-regular",
   },
   {
-    to: "/",
+    to: "/admin/veiculos",
     label: "Veículos",
     icon: "fluent:road-24-regular",
   },
   {
-    to: "/",
+    to: "/admin/os",
     label: "Ordem de serviço",
     icon: "solar:document-outline",
   },

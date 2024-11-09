@@ -9,57 +9,19 @@
         <p class="text-[13px] font-light">Preencha os campos corretamente</p>
       </template>
 
-      <UForm :state="models" @submit="handleSubmit" class="space-y-3">
-        <UFormGroup name="nome" label="Nome" required>
-          <UInput v-model="models.nome" :disabled="models.loading" />
-        </UFormGroup>
-
-        <UFormGroup name="telefone" label="Telefone" required>
-          <UInput
-            v-model="models.telefone"
-            :disabled="models.loading"
-            v-maska="'(##) #####-####'"
-          />
-        </UFormGroup>
-
-        <UFormGroup name="email" label="Email" required>
-          <UInput v-model="models.email" :disabled="models.loading" />
-        </UFormGroup>
-
-        <UFormGroup name="senha" label="Senha de acesso temporária" required>
-          <UInput v-model="models.senha" :disabled="models.loading" />
-        </UFormGroup>
-
-        <UFormGroup name="ativo" label="Status do cadastro" required>
-          <UToggle v-model="models.ativo" :disabled="models.loading" />
-        </UFormGroup>
-
-        <div class="flex justify-end space-x-2">
-          <UButton
-            color="red"
-            variant="ghost"
-            type="button"
-            @click="emits('update:modelValue', false)"
-            :disabled="models.loading"
-          >
-            Cancelar
-          </UButton>
-
-          <UButton
-            color="black"
-            type="submit"
-            :loading="models.loading"
-            :disabled="models.loading"
-          >
-            Salvar
-          </UButton>
-        </div>
-      </UForm>
+      <UsuariosForm
+        v-model="models"
+        :schema="schema"
+        @submit="handleSubmit"
+        @close="closeModal"
+      />
     </UCard>
   </UModal>
 </template>
 
 <script lang="ts" setup>
+import { z } from "zod";
+
 const emits = defineEmits(["update:modelValue"]);
 
 const props = defineProps({
@@ -70,6 +32,8 @@ const props = defineProps({
 });
 
 const isOpen = ref(false);
+const showPassword = ref(false);
+
 isOpen.value = props.modelValue;
 
 const user = useUser();
@@ -84,9 +48,30 @@ const models = reactive<IModels>({
   nome: "",
   email: "",
   senha: "",
-  ativo: false,
+  ativo: true,
   telefone: "",
 });
+
+const schema = z.object({
+  nome: z.string().trim().min(3, "Nome é obrigatório"),
+  email: z.string().email("Email inválido"),
+  senha: z.string().trim().min(1, "Senha é obrigatória"),
+  ativo: z.boolean(),
+  telefone: z.string().trim().min(15, "Telefone é obrigatório"),
+});
+
+const clearData = () => {
+  models.nome = "";
+  models.email = "";
+  models.senha = "";
+  models.ativo = true;
+  models.telefone = "";
+};
+
+const closeModal = () => {
+  emits("update:modelValue", false);
+  clearData();
+};
 
 const handleSubmit = async () => {
   try {
@@ -110,7 +95,8 @@ const handleSubmit = async () => {
       });
 
       emits("update:modelValue", false);
-            
+      clearData();
+
       await refreshNuxtData("getUsers");
     }
   } catch (err: any) {

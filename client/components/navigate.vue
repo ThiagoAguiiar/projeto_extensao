@@ -9,7 +9,29 @@
     />
 
     <div>
-      <UAvatar size="lg" alt="Thiago Aguiar" class="border-2" />
+      <UDropdown :popper="{ placement: 'bottom-start' }" :items="items">
+        <UAvatar size="lg" :alt="userData?.nome" class="border-2" />
+      </UDropdown>
     </div>
   </header>
 </template>
+
+<script lang="ts" setup>
+const auth = useAuth();
+
+const userData = auth.decodeToken();
+
+const items = [
+  [
+    {
+      label: "Configurações",
+      icon: "fluent:settings-24-regular",
+    },
+    {
+      label: "Sair",
+      icon: "solar:exit-linear",
+      click: () => auth.logout(),
+    },
+  ],
+];
+</script>
