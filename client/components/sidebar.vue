@@ -5,9 +5,7 @@
     </div>
 
     <div class="flex items-center justify-center">
-      <UTooltip text="Sair">
-        <SidebarLink @click="handleClick" :links="exitLink" type="button" />
-      </UTooltip>
+      <SidebarLink @click="handleClick" :links="exitLink" type="button" />
     </div>
   </aside>
 </template>

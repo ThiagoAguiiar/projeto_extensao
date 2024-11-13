@@ -12,6 +12,7 @@
       <UsuariosForm
         v-model="models"
         :schema="schema"
+        :loading="models.loading"
         @submit="handleSubmit"
         @close="closeModal"
       />
@@ -32,8 +33,6 @@ const props = defineProps({
 });
 
 const isOpen = ref(false);
-const showPassword = ref(false);
-
 isOpen.value = props.modelValue;
 
 const user = useUser();

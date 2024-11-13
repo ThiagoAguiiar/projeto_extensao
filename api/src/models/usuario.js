@@ -47,7 +47,12 @@ export const getUsuarioEmail = (email, ativo = null) => {
 
       connection.query(query, params, (err, result) => {
         if (err) return reject(err);
-        if (result.length > 0) return resolve(result[0]);
+        if (result.length > 0) {
+          // Mapeia o resultado para alterar o valor de ativo para booleano
+          result[0].ativo = result[0].ativo === 1;
+
+          return resolve(result[0]);
+        }
 
         return resolve(null);
       });
@@ -65,7 +70,11 @@ export const getUsuarioId = (id) => {
 
       connection.query(query, [id], (err, result) => {
         if (err) return reject(err);
-        if (result.length > 0) return resolve(result[0]);
+        if (result.length > 0) {
+          // Mapeia o resultado para alterar o valor de ativo para booleano
+          result[0].ativo = result[0].ativo === 1;
+          return resolve(result[0]);
+        }
 
         return resolve(null);
       });

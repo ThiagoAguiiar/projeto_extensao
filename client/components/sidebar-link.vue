@@ -4,33 +4,37 @@
     v-if="type === 'link'"
     v-for="{ icon, label, to, color } in links"
   >
-    <NuxtLink
-      :to="to"
-      :class="['flex flex-col gap-y-0.5 items-center cursor-pointer', color]"
-    >
-      <div
-        class="w-[30px] h-[30px] flex items-center justify-center hover:bg-[#eaeaea] rounded-md link-icon"
+    <UTooltip :text="label">
+      <NuxtLink
+        :to="to"
+        :class="['flex flex-col gap-y-0.5 items-center cursor-pointer', color]"
       >
-        <Icon :name="icon" size="20px" />
-      </div>
+        <div
+          class="w-[30px] h-[30px] flex items-center justify-center hover:bg-[#eaeaea] rounded-md link-icon"
+        >
+          <Icon :name="icon" size="20px" />
+        </div>
 
-      <span class="block text-center text-[12px]">{{ label }}</span>
-    </NuxtLink>
+        <span class="block text-center text-[12px]">{{ label }}</span>
+      </NuxtLink>
+    </UTooltip>
   </div>
 
   <div v-for="{ icon, label, color } in links" v-else>
-    <span
-      :class="['flex flex-col items-center cursor-pointer', color]"
-      @click.prevent="emits('click')"
-    >
-      <div
-        class="w-[30px] h-[30px] flex items-center justify-center hover:bg-[#eaeaea] rounded-md"
+    <UTooltip :text="label">
+      <span
+        :class="['flex flex-col items-center cursor-pointer', color]"
+        @click.prevent="emits('click')"
       >
-        <Icon :name="icon" size="20px" />
-      </div>
+        <div
+          class="w-[30px] h-[30px] flex items-center justify-center hover:bg-[#eaeaea] rounded-md"
+        >
+          <Icon :name="icon" size="20px" />
+        </div>
 
-      <span class="block text-[12px] text-center">{{ label }}</span>
-    </span>
+        <span class="block text-[12px] text-center">{{ label }}</span>
+      </span>
+    </UTooltip>
   </div>
 </template>
 

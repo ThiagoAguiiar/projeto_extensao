@@ -1,39 +1,40 @@
 import authController from "../controllers/authController.js";
 import authMiddleware from "../middleware/authMiddleware.js";
-import enviarStatus from "../utils/enviarStatus.js";
+import status from "../utils/status.js";
 import usuarioController from "../controllers/usuarioController.js";
 
 const router = (app) => {
   const { login } = authController();
-  const { getUsuarios, postUsuario, deleteUsuario, getUsuarioId, putUsuario } = usuarioController();
+
+  const { get, getById, post, put, delete: _delete } = usuarioController();
 
   app.post("/login", (req, res) => {
     return login(req, res);
   });
 
   app.get("/hello", (req, res) => {
-    return enviarStatus(res, 200, "Hello World!");
+    return status(res, 200, "Hello World!");
   });
 
   // Rotas protegidas pelo Middleware (USUÁRIOS)
   app.get("/admin/usuarios", authMiddleware, (req, res) => {
-    return getUsuarios(req, res);
+    return get(req, res);
   });
 
-  app.post("/admin/usuarios", authMiddleware, (req, res) => {
-    return postUsuario(req, res);
+  app.post("/admin/usuarios", authMiddleware, async (req, res) => {
+    return await post(req, res);
   });
 
   app.delete("/admin/usuarios", authMiddleware, (req, res) => {
-    return deleteUsuario(req, res);
+    return _delete(req, res);
   });
 
   app.get("/admin/usuarios/getById", authMiddleware, (req, res) => {
-    return getUsuarioId(req, res);
+    return getById(req, res);
   });
 
   app.put("/admin/usuarios", authMiddleware, (req, res) => {
-    return putUsuario(req, res);
+    return put(req, res);
   });
 };
 

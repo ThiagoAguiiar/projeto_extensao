@@ -118,7 +118,7 @@ const handleSubmit = async () => {
 
       if (data.value) {
         toast.add({
-          title: "Sucesso",
+          title: "Sucesso!",
           description: data.value.message,
           color: "green",
         });
@@ -129,9 +129,9 @@ const handleSubmit = async () => {
 
       if (error.value) {
         toast.add({
-          title: "Erro",
+          title: "Atenção!",
           description: error.value.message,
-          color: "red",
+          color: "yellow",
         });
       }
     }

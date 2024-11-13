@@ -7,132 +7,134 @@ import {
   putUsuario,
 } from "../models/usuario.js";
 
-import {
-  validarEmail,
-  validarInput,
-  validarTelefone,
-} from "../utils/validators.js";
+import { vEmail, vInput, vPhone } from "../utils/validators.js";
 
-import enviarStatus from "../utils/enviarStatus.js";
+import status from "../utils/status.js";
+import sendEmail from "../utils/email.js";
 
 const usuarioController = () => {
+  const get = async (req, res) => {
+    const u = await getUsuarios();
+
+    if (u != null) {
+      return status(res, 200, "Lista de usuários retornada com sucesso!", u);
+    }
+
+    return status(res, 200, "Nenhum usuário cadastrado");
+  };
+
+  const getById = async (req, res) => {
+    const { id } = req.query;
+
+    if (!id) {
+      return status(res, 400, "Nenhum usuário encontrado");
+    }
+
+    const u = await getUsuarioId(id);
+
+    if (!u) {
+      return status(res, 404, "Nenhum usuário encontrado");
+    }
+
+    return status(res, 200, "Usuário", u);
+  };
+
+  const post = async (req, res) => {
+    const { nome, email, senha, telefone, ativo } = req.body;
+
+    const validate =
+      vInput(nome) && vInput(senha) && vEmail(email) && vPhone(telefone);
+
+    if (!validate) {
+      return status(res, 400, "Preencha todos os campos são obrigatórios");
+    }
+
+    const u = await getUsuarioEmail(email);
+
+    if (u) {
+      return status(res, 409, "Já existe um usuário cadastrado com este email");
+    }
+
+    const newUser = await postUsuario({
+      nome,
+      email,
+      senha,
+      telefone,
+      ativo,
+      dataCriacao: new Date(),
+    });
+
+    if (!newUser) {
+      return status(res, 500, "Erro ao cadastrar usuário. Tente novamente");
+    }
+
+    await sendEmail(
+      email,
+      "Boas vindas ao Léo Oficina Mecânica",
+      `Olá, ${nome}. Seu email (${email}) foi cadastrado no sistema "Léo Oficina Mecânica". A sua senha é: ${senha}`
+    );
+
+    return status(res, 200, "Usuário cadastrado com sucesso");
+  };
+
+  const _delete = async (req, res) => {
+    const { email, id } = req.query;
+
+    if (!vEmail(email)) {
+      return status(res, 400, "Email inválido");
+    }
+
+    if (!id) {
+      return status(res, 400, "Id de usuário inválido");
+    }
+
+    const u = await getUsuarioEmail(email);
+
+    if (!u) {
+      return status(res, 404, "Usuário não encontrado");
+    }
+
+    const response = await deleteUsuario(id);
+
+    if (!response) {
+      return status(res, 500, "Ocorreu um erro ao deletar usuário");
+    }
+
+    return status(res, 200, "Usuário deletado com sucesso!");
+  };
+
+  const put = async (req, res) => {
+    const { nome, email, telefone, ativo, idUsuario } = req.body;
+
+    const validate = vInput(nome) && vEmail(email) && vPhone(telefone);
+
+    if (!validate) {
+      return status(res, 400, "Preencha toods os campos obrigatórios");
+    }
+
+    const u = await getUsuarioEmail(email);
+
+    if (u && u.idUsuario !== idUsuario) {
+      return status(res, 400, "Já existe um usuário cadastrado com este email");
+    }
+
+    await putUsuario({
+      nome,
+      email,
+      telefone,
+      ativo,
+      idUsuario,
+    });
+
+    return status(res, 200, "Usuário atualizado com sucesso");
+  };
+
   return {
-    getUsuarios: async (req, res) => {
-      const u = await getUsuarios();
-
-      if (u != null) {
-        return enviarStatus(res, 200, "Usuários", u);
-      }
-
-      return enviarStatus(res, 200, "Nenhum usuário encontrado");
-    },
-    getUsuarioId: async (req, res) => {
-      const { id } = req.query;
-
-      if (!id) return enviarStatus(res, 400, "ID inválido");
-
-      const u = await getUsuarioId(id);
-
-      if (!u) return enviarStatus(res, 404, "Usuário não encontrado");
-
-      return enviarStatus(res, 200, "Usuário", u);
-    },
-    postUsuario: async (req, res) => {
-      const { nome, email, senha, telefone, ativo } = req.body;
-
-      const v =
-        validarInput(nome) &&
-        validarInput(senha) &&
-        validarEmail(email) &&
-        validarTelefone(telefone);
-
-      if (!v) {
-        return enviarStatus(
-          res,
-          400,
-          "Todos os campos são obrigatórios e precisam ser preenchidos"
-        );
-      }
-
-      const u = await getUsuarioEmail(email);
-
-      if (u)
-        return enviarStatus(
-          res,
-          409,
-          "Já existe um usuário cadastrado com este email"
-        );
-
-      const response = await postUsuario({
-        nome,
-        email,
-        senha,
-        telefone,
-        ativo,
-        dataCriacao: new Date(),
-      });
-
-      if (!response) {
-        return enviarStatus(res, 500, "Ocorreu um erro ao cadastrar usuário");
-      }
-
-      return enviarStatus(res, 200, "Usuário cadastrado com sucesso");
-    },
-    deleteUsuario: async (req, res) => {
-      const { email, id } = req.query;
-
-      if (!validarEmail(email)) {
-        return enviarStatus(res, 400, "Email inválido");
-      }
-
-      if (!id) {
-        return enviarStatus(res, 400, "Id de usuário inválido");
-      }
-
-      const u = await getUsuarioEmail(email);
-
-      if (!u) {
-        return enviarStatus(res, 404, "Usuário não encontrado");
-      }
-
-      const response = await deleteUsuario(id);
-
-      if (!response) {
-        return enviarStatus(res, 500, "Ocorreu um erro ao deletar usuário");
-      }
-
-      return enviarStatus(res, 200, "Usuário deletado com sucesso!");
-    },
-    putUsuario: async (req, res) => {
-      const { nome, email, telefone, ativo, idUsuario } = req.body;
-
-      const v =
-        validarEmail(email) && validarInput(nome) && validarTelefone(telefone);
-
-      if (!v) {
-        return enviarStatus(
-          res,
-          400,
-          "Todos os campos são obrigatórios e precisam ser preenchidos"
-        );
-      }
-
-      const u = await getUsuarioEmail(email);
-
-      if (!u) {
-        return enviarStatus(res, 404, "Usuário não encontrado");
-      }
-
-      await putUsuario({
-        nome,
-        email,
-        telefone,
-        ativo,
-        idUsuario,
-      });
-
-      return enviarStatus(res, 200, "Usuário atualizado com sucesso");
-    },
+    get,
+    getById,
+    post,
+    delete: _delete,
+    put,
   };
 };
 

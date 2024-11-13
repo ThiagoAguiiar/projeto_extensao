@@ -74,11 +74,11 @@ const options = (row: IGetUser) => {
         label: "Excluir",
         icon: "fluent:delete-24-regular",
         click: async () => {
-          const { error } = await u.deleteUser(row.email, row.idUsuario);
+          const { error, data } = await u.deleteUser(row.email, row.idUsuario);
 
           if (error.value) {
             toast.add({
-              title: "Erro",
+              title: "Erro!",
               description: error.value.message,
               color: "red",
             });
@@ -87,8 +87,8 @@ const options = (row: IGetUser) => {
           }
 
           toast.add({
-            title: "Sucesso",
-            description: "Usuário excluído com sucesso",
+            title: "Sucesso!",
+            description: data.value?.message,
             color: "green",
           });
 

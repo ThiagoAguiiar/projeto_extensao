@@ -28,11 +28,13 @@ export default defineStore("useUser", () => {
     const data = ref<IResponse | null>(null);
     const error = ref<IResponse | null>(null);
 
+    console.log("USUAÁRIO POST", user);
+
     try {
       const response = await $fetch<IResponse>("/admin/usuarios", {
         method: "POST",
         headers: auth.getHeaders(),
-        body: user,
+        body: { ...user },
         baseURL: apiURL,
       });
 
