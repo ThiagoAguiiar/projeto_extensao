@@ -52,10 +52,9 @@ const exitLink = [
   },
 ];
 
-const handleClick = () => {
+const handleClick = async () => {
   const auth = useAuth();
-
-  auth.logout();
+  await auth.logout();
 };
 </script>
 

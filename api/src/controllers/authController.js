@@ -1,7 +1,7 @@
-import { getUsuarioEmail, putUsuario } from "../models/usuario.js";
+import { getUsuarioEmail, getUsuarioId, putUsuario } from "../models/usuario.js";
 import { criarToken } from "../utils/token.js";
-
 import { vEmail, vInput, verifyPassword } from "../utils/validators.js";
+
 import status from "../utils/status.js";
 
 const authController = () => {
@@ -55,8 +55,25 @@ const authController = () => {
     );
   };
 
+  // Remove o token do usuário no banco
+  const logout = async (req, res) => {
+    const { id } = req.query;
+
+    const usuario = await getUsuarioId(id);
+
+    if (usuario) {
+      usuario.token = null;
+      await putUsuario(usuario);
+
+      return status(res, 200, "Usuário desconectado com sucesso!");
+    }
+
+    return status(res, 401, "Usuário não encontrado.");
+  };
+
   return {
     login,
+    logout,
   };
 };
 

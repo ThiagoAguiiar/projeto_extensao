@@ -20,7 +20,7 @@ export default defineStore("useUser", () => {
       return response;
     } catch (err: any) {
       console.log(err.response._data.status);
-      handleResponse(err.response._data.status);
+      await handleResponse(err.response._data.status);
       return null;
     }
   };
@@ -40,7 +40,7 @@ export default defineStore("useUser", () => {
       data.value = response;
     } catch (err: any) {
       error.value = err.response._data;
-      handleResponse(err.response._data.status);
+      await handleResponse(err.response._data.status);
     }
 
     return { data, error };
@@ -61,7 +61,7 @@ export default defineStore("useUser", () => {
       data.value = response;
     } catch (err: any) {
       error.value = err.response._data;
-      handleResponse(err.response._data.status);
+      await handleResponse(err.response._data.status);
     }
 
     return { data, error };
@@ -77,7 +77,7 @@ export default defineStore("useUser", () => {
       });
     } catch (err: any) {
       console.log(err.response._data.status);
-      handleResponse(err.response._data.status);
+      await handleResponse(err.response._data.status);
       return null;
     }
   };
@@ -97,7 +97,7 @@ export default defineStore("useUser", () => {
       data.value = response;
     } catch (err: any) {
       error.value = err.response._data;
-      handleResponse(err.response._data.status);
+      await handleResponse(err.response._data.status);
     }
 
     return { data, error };

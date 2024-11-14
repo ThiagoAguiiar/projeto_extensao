@@ -18,17 +18,34 @@ export default defineStore("useAuth", () => {
       data.value = response;
     } catch (err: any) {
       error.value = err.response._data;
-      handleResponse(err.response._data.status);
+      await handleResponse(err.response._data.status);
     }
 
     return { data, error };
   };
 
-  const logout = () => {
+  const logout = async () => {
     const cookie = useCookie(runtime.public.authToken);
+    const toast = useToast();
+
+    try {
+      const res = await $fetch<IResponse>("/logout", {
+        method: "GET",
+        baseURL: runtime.public.apiURL,
+        params: { id: decodeToken()?.id },
+      });
+
+      toast.add({
+        title: "Até mais",
+        description: res.message,
+        color: "green",
+      });
+    } catch (err) {
+      // Handle Error
+    }
 
     cookie.value = "";
-    navigateTo("/auth/login");
+    await navigateTo("/auth/login");
   };
 
   const getHeaders = () => {

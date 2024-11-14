@@ -100,12 +100,8 @@ const props = defineProps({
 const emits = defineEmits(["close", "update:modelValue", "submit"]);
 
 const models = ref(props.modelValue);
-
 const showPassword = ref(false);
 
 watch(models, () => emits("update:modelValue", models), { deep: true });
-watch(
-  () => props.modelValue,
-  (value) => (models.value = value)
-);
+watch(() => props.modelValue, (value) => (models.value = value));
 </script>
