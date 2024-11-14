@@ -15,7 +15,11 @@ const authController = () => {
       const usuario = await getUsuarioEmail(email, true);
 
       // Se houver usuário e a senha for válida
-      if (usuario != null && verifyPassword(senha, usuario.senha)) {
+      if (
+        usuario != null &&
+        verifyPassword(senha, usuario.senha) &&
+        usuario.ativo
+      ) {
         // Criação do token
         const tokenData = {
           email: usuario.email,

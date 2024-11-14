@@ -37,6 +37,11 @@ const sidebarLinks = [
     label: "Ordem de serviço",
     icon: "solar:document-outline",
   },
+  {
+    to: "/admin/pecas",
+    label: "Peças",
+    icon: "iconoir:box-iso",
+  },
 ];
 
 const exitLink = [

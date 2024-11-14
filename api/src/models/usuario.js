@@ -39,14 +39,15 @@ export const getUsuarioEmail = (email, ativo = null) => {
       let params = [email];
 
       if (ativo === null) {
-        query = `SELECT idUsuario, nome, email, senha FROM usuario WHERE email = ?`;
+        query = `SELECT idUsuario, nome, email,ativo, senha FROM usuario WHERE email = ?`;
       } else {
-        query = `SELECT idUsuario, nome, email, senha FROM usuario WHERE email = ? AND ativo = ?`;
+        query = `SELECT idUsuario, nome, email,ativo, senha FROM usuario WHERE email = ? AND ativo = ?`;
         params.push(ativo);
       }
 
       connection.query(query, params, (err, result) => {
         if (err) return reject(err);
+
         if (result.length > 0) {
           // Mapeia o resultado para alterar o valor de ativo para booleano
           result[0].ativo = result[0].ativo === 1;

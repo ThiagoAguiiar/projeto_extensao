@@ -3,25 +3,21 @@
     @submit="handleSubmit"
     :schema="schema"
     :state="models"
-    class="w-full p-3 space-y-2.5 anime-left"
+    class="w-full p-3 space-y-5 anime-left"
   >
     <div>
       <h1 class="text-xl font-bold">Login</h1>
       <p class="text-sm">Acessar sua conta para continuar</p>
     </div>
 
-    <UFormGroup name="email" label="Email">
-      <UInput v-model.trim="models.email" type="email" />
-    </UFormGroup>
+    <div class="space-y-2.5">
+      <UFormGroup name="email" label="Email">
+        <UInput v-model.trim="models.email" type="email" />
+      </UFormGroup>
 
-    <UFormGroup name="senha" label="Senha">
-      <UInput v-model.trim="models.senha" type="password" />
-    </UFormGroup>
-
-    <div class="flex justify-end">
-      <NuxtLink class="text-[13px] underline" to="/auth/forgot">
-        Esqueci minha senha
-      </NuxtLink>
+      <UFormGroup name="senha" label="Senha">
+        <UInput v-model.trim="models.senha" type="password" />
+      </UFormGroup>
     </div>
 
     <UButton

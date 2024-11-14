@@ -10,11 +10,13 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "echarts": "^5.5.1",
     "jwt-decode": "^4.0.0",
     "maska": "^3.0.3",
     "nuxt": "^3.13.2",
     "pinia": "^2.2.6",
     "vue": "latest",
+    "vue-echarts": "^7.0.3",
     "vue-router": "latest",
     "zod": "^3.23.8"
   },

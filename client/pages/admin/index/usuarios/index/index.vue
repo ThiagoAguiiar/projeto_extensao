@@ -27,6 +27,8 @@
         <TableBullet :ativo="row.ativo" />
       </template>
     </UTable>
+
+    <p v-else>Nenhum resultado encontrado</p>
   </div>
 </template>
 

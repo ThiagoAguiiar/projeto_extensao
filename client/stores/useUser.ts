@@ -11,14 +11,15 @@ export default defineStore("useUser", () => {
 
   const getUsers = async () => {
     try {
-      return await $fetch<IResponse<IGetUser[]>>("admin/usuarios", {
+      const response = await $fetch<IResponse<IGetUser[]>>("admin/usuarios", {
         method: "GET",
         headers: auth.getHeaders(),
         baseURL: apiURL,
       });
+
+      return response;
     } catch (err: any) {
       console.log(err.response._data.status);
-
       handleResponse(err.response._data.status);
       return null;
     }
@@ -27,8 +28,6 @@ export default defineStore("useUser", () => {
   const postUser = async (user: IPostUser) => {
     const data = ref<IResponse | null>(null);
     const error = ref<IResponse | null>(null);
-
-    console.log("USUAÁRIO POST", user);
 
     try {
       const response = await $fetch<IResponse>("/admin/usuarios", {
