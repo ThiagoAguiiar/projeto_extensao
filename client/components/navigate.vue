@@ -30,7 +30,7 @@ const items = [
     {
       label: "Sair",
       icon: "solar:exit-linear",
-      click: () => auth.logout(),
+      click: async() => await auth.logout(),
     },
   ],
 ];

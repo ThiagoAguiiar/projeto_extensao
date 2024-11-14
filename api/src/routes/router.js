@@ -4,16 +4,19 @@ import status from "../utils/status.js";
 import usuarioController from "../controllers/usuarioController.js";
 
 const router = (app) => {
-  const { login } = authController();
-
+  const { login, logout } = authController();
   const { get, getById, post, put, delete: _delete } = usuarioController();
+
+  app.get("/hello", (req, res) => {
+    return status(res, 200, "Hello World!");
+  });
 
   app.post("/login", (req, res) => {
     return login(req, res);
   });
 
-  app.get("/hello", (req, res) => {
-    return status(res, 200, "Hello World!");
+  app.get("/logout", (req, res) => {
+    return logout(req, res);
   });
 
   // Rotas protegidas pelo Middleware (USUÁRIOS)
@@ -21,8 +24,8 @@ const router = (app) => {
     return get(req, res);
   });
 
-  app.post("/admin/usuarios", authMiddleware, async (req, res) => {
-    return await post(req, res);
+  app.post("/admin/usuarios", authMiddleware, (req, res) => {
+    return post(req, res);
   });
 
   app.delete("/admin/usuarios", authMiddleware, (req, res) => {

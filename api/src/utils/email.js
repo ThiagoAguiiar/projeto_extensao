@@ -22,7 +22,6 @@ const smtpTransport = nodemailer.createTransport({
 // Envia Emails
 export default async function sendEmail(to, subject, text) {
   try {
-    console.log(smtpTransport);
 
     const result = await smtpTransport.sendMail({
       from: smtpConfig.user,
