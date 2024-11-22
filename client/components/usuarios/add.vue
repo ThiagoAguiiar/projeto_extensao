@@ -45,6 +45,7 @@ interface IModels extends IPostUser {
 const models = reactive<IModels>({
   loading: false,
   nome: "",
+  idade: 0,
   email: "",
   senha: "",
   ativo: true,
@@ -53,6 +54,7 @@ const models = reactive<IModels>({
 
 const schema = z.object({
   nome: z.string().trim().min(3, "Nome é obrigatório"),
+  idade: z.string().trim().min(1, "Idade"),
   email: z.string().email("Email inválido"),
   senha: z.string().trim().min(1, "Senha é obrigatória"),
   ativo: z.boolean(),
@@ -61,6 +63,7 @@ const schema = z.object({
 
 const clearData = () => {
   models.nome = "";
+  models.idade = 0;
   models.email = "";
   models.senha = "";
   models.ativo = true;

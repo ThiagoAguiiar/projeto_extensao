@@ -1,6 +1,6 @@
 
       const { defaultExtractor: createDefaultExtractor } = require('tailwindcss/lib/lib/defaultExtractor.js')
-      const { customSafelistExtractor, generateSafelist } = require("C:/Users/thiag/OneDrive/Desktop/Pessoal/projetos/projeto_extensao/client/node_modules/@nuxt/ui/dist/runtime/utils/colors")
+      const { customSafelistExtractor, generateSafelist } = require("C:/Users/adria/OneDrive/Documentos/IFSP/4º SEMESTRE/Projeto Extensão 2/Projeto Extensão/Codigo/projeto_extensao/client/node_modules/@nuxt/ui/dist/runtime/utils/colors")
 
       const defaultExtractor = createDefaultExtractor({ tailwindConfig: { separator: ':' } })
 
@@ -14,8 +14,8 @@
         ],
         content: {
           files: [
-            "C:/Users/thiag/OneDrive/Desktop/Pessoal/projetos/projeto_extensao/client/node_modules/@nuxt/ui/dist/runtime/components/**/*.{vue,mjs,ts}",
-            "C:/Users/thiag/OneDrive/Desktop/Pessoal/projetos/projeto_extensao/client/node_modules/@nuxt/ui/dist/runtime/ui.config/**/*.{mjs,js,ts}"
+            "C:/Users/adria/OneDrive/Documentos/IFSP/4º SEMESTRE/Projeto Extensão 2/Projeto Extensão/Codigo/projeto_extensao/client/node_modules/@nuxt/ui/dist/runtime/components/**/*.{vue,mjs,ts}",
+            "C:/Users/adria/OneDrive/Documentos/IFSP/4º SEMESTRE/Projeto Extensão 2/Projeto Extensão/Codigo/projeto_extensao/client/node_modules/@nuxt/ui/dist/runtime/ui.config/**/*.{mjs,js,ts}"
           ],
           transform: {
             vue: (content) => {

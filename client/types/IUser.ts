@@ -3,6 +3,7 @@ export interface IGetUser {
   email: string;
   idUsuario: number;
   nome: string;
+  idade: number;
   senha: string;
   token: string;
   telefone: string;
@@ -13,6 +14,7 @@ export interface IGetUser {
 export interface IPostUser {
   email: string;
   nome: string;
+  idade: number;
   senha: string;
   telefone: string;
   ativo: boolean;

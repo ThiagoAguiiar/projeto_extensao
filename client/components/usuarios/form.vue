@@ -9,6 +9,10 @@
       <UInput v-model.trim="models.nome" :disabled="loading" />
     </UFormGroup>
 
+    <UFormGroup name="idade" label="Idade">
+      <UInput v-model.number="models.idade" :disabled="loading" />
+    </UFormGroup>
+
     <UFormGroup name="telefone" label="Telefone" required>
       <UInput
         v-model.trim="models.telefone"
@@ -82,6 +86,7 @@
 </template>
 
 <script lang="ts" setup>
+
 const props = defineProps({
   modelValue: {
     type: Object as PropType<IGetUser | IPostUser>,

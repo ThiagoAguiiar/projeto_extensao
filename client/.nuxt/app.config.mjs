@@ -233,6 +233,6 @@ if (import.meta.hot) {
   })
 }
 
-import cfg0 from "C:/Users/thiag/OneDrive/Desktop/Pessoal/projetos/projeto_extensao/client/app.config.ts"
+import cfg0 from "C:/Users/adria/OneDrive/Documentos/IFSP/4º SEMESTRE/Projeto Extensão 2/Projeto Extensão/Codigo/projeto_extensao/client/app.config.ts"
 
 export default /*@__PURE__*/ defuFn(cfg0, inlineConfig)
