@@ -21,19 +21,6 @@
         </BaseGroup>
 
         <BaseGroup
-          name="idade"
-          label="Idade"
-          hint="Idade disponível no sistema"
-          required
-        >
-          <UInput
-            v-model="usuario.data.idade"
-            :dibabled="loading"
-            class="w-[450px] max-[450px]:w-full"
-          />
-        </BaseGroup>
-
-        <BaseGroup
           name="email"
           label="Email"
           hint="Email de acesso ao sistema"

@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="h-full border-r border-r-gray-200 min-w-[250px] w-[250px] transition-all duration-300 ease-in-out"
-  >
+  <div class="h-full border-r border-r-gray-200 min-w-[250px] w-[250px] transition-all duration-300 ease-in-out">
     <div class="relative h-full space-y-1 px-5">
       <div v-for="{ to, label, icon, type, click } in links">
         <NuxtLink

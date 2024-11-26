@@ -1,7 +1,6 @@
 <template>
   <div
-    class="min-w-[450px] min-h-[400px] p-7 bg-[#f8f8f8] rounded-2xl flex items-center justify-center flex-col space-y-7"
-  >
+    class="min-w-[450px] min-h-[400px] p-7 bg-[#f8f8f8] rounded-2xl flex items-center justify-center flex-col space-y-7">
     <span class="text-center text-[20px] uppercase font-medium" v-if="data">
       usuários
     </span>
