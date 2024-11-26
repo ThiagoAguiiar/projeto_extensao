@@ -15,10 +15,7 @@
 
     <UTable v-if="data != null" :rows="data.data || []" :columns="columns">
       <template #actions-data="{ row }">
-        <UDropdown
-          :items="options(row)"
-          :popper="{ placement: 'bottom-start' }"
-        >
+        <UDropdown :items="options(row)" :popper="{ placement: 'bottom-start' }">
           <UButton color="white" square icon="ph:dots-three-bold" />
         </UDropdown>
       </template>

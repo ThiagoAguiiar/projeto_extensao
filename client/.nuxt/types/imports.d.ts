@@ -397,6 +397,7 @@ declare global {
   const useUserMedia: typeof import('../../node_modules/@vueuse/core')['useUserMedia']
   const useVModel: typeof import('../../node_modules/@vueuse/core')['useVModel']
   const useVModels: typeof import('../../node_modules/@vueuse/core')['useVModels']
+  const useVehicle: typeof import('../../stores/useVehicle')['default']
   const useVibrate: typeof import('../../node_modules/@vueuse/core')['useVibrate']
   const useVirtualList: typeof import('../../node_modules/@vueuse/core')['useVirtualList']
   const useWakeLock: typeof import('../../node_modules/@vueuse/core')['useWakeLock']
@@ -450,6 +451,9 @@ declare global {
   // @ts-ignore
   export type { IGetUser, IPostUser, IPutUser } from '../../types/IUser'
   import('../../types/IUser')
+  // @ts-ignore
+  export type { IGetVehicle, IPostVehicle, IPutVehicle } from '../../types/IVehicles'
+  import('../../types/IVehicles')
 }
 // for vue template auto import
 import { UnwrapRef } from 'vue'
@@ -851,6 +855,7 @@ declare module 'vue' {
     readonly useUserMedia: UnwrapRef<typeof import('../../node_modules/@vueuse/core')['useUserMedia']>
     readonly useVModel: UnwrapRef<typeof import('../../node_modules/@vueuse/core')['useVModel']>
     readonly useVModels: UnwrapRef<typeof import('../../node_modules/@vueuse/core')['useVModels']>
+    readonly useVehicle: UnwrapRef<typeof import('../../stores/useVehicle')['default']>
     readonly useVibrate: UnwrapRef<typeof import('../../node_modules/@vueuse/core')['useVibrate']>
     readonly useVirtualList: UnwrapRef<typeof import('../../node_modules/@vueuse/core')['useVirtualList']>
     readonly useWakeLock: UnwrapRef<typeof import('../../node_modules/@vueuse/core')['useWakeLock']>
