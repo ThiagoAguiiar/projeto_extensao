@@ -12,7 +12,7 @@ const u = useUser();
 const links: ISidebar[] = [
   {
     label: "Lista de clientes",
-    to: "/admin/usuarios",
+    to: "/admin/clientes",
     icon: "fluent:list-24-regular",
   },
   {

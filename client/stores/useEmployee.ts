@@ -1,18 +1,19 @@
-import type { IGetVehicle, IPostVehicle, IPutVehicle } from "~/types/IVehicles";
+import type { IpVersion } from "zod";
+import type { IGetEmployee, IPostEmployee, IPutEmployee } from "~/types/IEmployee.ts";
 import handleResponse from "~/utils/response";
 
-export default defineStore("useVehicle", () => {
+export default defineStore("useEmployee", () => {
   const auth = useAuth();
 
-  const addVehicle = ref(false);
+  const addEmployee = ref(false);
 
   const {
     public: { apiURL },
   } = useRuntimeConfig();
 
-  const getVehicles = async () => {
+  const getEmployees = async () => {
     try {
-      const response = await $fetch<IResponse<IGetVehicle[]>>("admin/veiculos", {
+      const response = await $fetch<IResponse<IGetEmployee[]>>("admin/funcionarios", {
         method: "GET",
         headers: auth.getHeaders(),
         baseURL: apiURL,
@@ -26,15 +27,15 @@ export default defineStore("useVehicle", () => {
     }
   };
 
-  const postVehicle = async (vehicle: IPostVehicle) => {
+  const postEmployee = async (user: IPostEmployee) => {
     const data = ref<IResponse | null>(null);
     const error = ref<IResponse | null>(null);
 
     try {
-      const response = await $fetch<IResponse>("/admin/veiculos", {
+      const response = await $fetch<IResponse>("/admin/funcionarios", {
         method: "POST",
         headers: auth.getHeaders(),
-        body: { ...vehicle },
+        body: { ...user },
         baseURL: apiURL,
       });
 
@@ -47,15 +48,15 @@ export default defineStore("useVehicle", () => {
     return { data, error };
   };
 
-  const deleteVehicle = async (placa: string) => {
+  const deleteEmployee = async (email: string, userId: number) => {
     const data = ref<IResponse | null>(null);
     const error = ref<IResponse | null>(null);
 
     try {
-      const response = await $fetch<IResponse>("/admin/usuarios", {
+      const response = await $fetch<IResponse>("/admin/funcionarios", {
         method: "DELETE",
         headers: auth.getHeaders(),
-        params: { placa: placa},
+        params: { email: email, id: userId },
         baseURL: apiURL,
       });
 
@@ -68,12 +69,12 @@ export default defineStore("useVehicle", () => {
     return { data, error };
   };
 
-  const getVehiclePlate = async (plate: string) => {
+  const getEmployeeId = async (id: string) => {
     try {
-      return await $fetch<IResponse<IGetVehicle>>("admin/veiculos/getById", {
+      return await $fetch<IResponse<IGetEmployee>>("admin/funcionarios/getById", {
         method: "GET",
         headers: auth.getHeaders(),
-        params: { plate },
+        params: { id },
         baseURL: apiURL,
       });
     } catch (err: any) {
@@ -83,12 +84,12 @@ export default defineStore("useVehicle", () => {
     }
   };
 
-  const putVehicle = async (user: IPutVehicle) => {
+  const putEmployee = async (user: IPutEmployee) => {
     const data = ref<IResponse | null>(null);
     const error = ref<IResponse | null>(null);
 
     try {
-      const response = await $fetch<IResponse>("/admin/veiculos", {
+      const response = await $fetch<IResponse>("/admin/funcionarios", {
         method: "PUT",
         headers: auth.getHeaders(),
         body: user,
@@ -104,5 +105,5 @@ export default defineStore("useVehicle", () => {
     return { data, error };
   };
 
-  return { getVehicles, getVehiclePlate, postVehicle, deleteVehicle, addVehicle, putVehicle };
+  return { getEmployees, postEmployee, deleteEmployee, getEmployeeId, addEmployee, putEmployee };
 });

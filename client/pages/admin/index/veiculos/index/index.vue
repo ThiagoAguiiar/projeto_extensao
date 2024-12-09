@@ -13,9 +13,9 @@
                 </UDropdown>
             </template>
 
-            <template #ativo-data="{ row }">
+            <!-- <template #ativo-data="{ row }">
                 <TableBullet :ativo="row.ativo" />
-            </template>
+            </template> -->
         </UTable>
 
         <p v-else>Nenhum resultado encontrado</p>
@@ -32,20 +32,16 @@ const { data, refresh } = await useLazyAsyncData("getVehicles", () => {
 
 const columns = [
     {
-        label: "Status",
-        key: "ativo"
-    },
-    {
         label: "Modelo veículo",
-        key: "modelo_veiculo"
+        key: "modelo"
     },
     {
         label: "Ano",
         key: "ano"
     },
     {
-        label: "Cliente dono do veículo",
-        key: "cliente_responsavel"
+        label: "Proprietário",
+        key: "idCliente"
     },
     {
         label: "Placa do veículo",
@@ -54,7 +50,19 @@ const columns = [
     {
         label: "Frota",
         key: "frota"
-    }
+    },
+    {
+        label: "Motor",
+        key: "motor"
+    },
+    {
+        label: "Cor",
+        key: "cor"
+    },
+    {
+    label: "Ações",
+    key: "actions",
+  }
 ]
 
 const options = (row: IGetVehicle) => {
@@ -63,7 +71,7 @@ const options = (row: IGetVehicle) => {
             {
                 label: "Visualizar",
                 icon: "fluent:eye-24-regular",
-                click: () => navigateTo('admin/veiculos' + row.placa)
+                click: () => navigateTo('/admin/veiculos/' + row.placa)
             },
             {
                 label: "Excluir",

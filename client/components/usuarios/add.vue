@@ -5,7 +5,7 @@
   >
     <UCard>
       <template #header>
-        <h2 class="text">Adicionar novo usuário</h2>
+        <h2 class="text">Adicionar novo funcionário</h2>
         <p class="text-[13px] font-light">Preencha os campos corretamente</p>
       </template>
 
@@ -35,10 +35,10 @@ const props = defineProps({
 const isOpen = ref(false);
 isOpen.value = props.modelValue;
 
-const user = useUser();
+const user = useEmployee();
 const toast = useToast();
 
-interface IModels extends IPostUser {
+interface IModels extends IPostEmployee {
   loading: boolean;
 }
 
@@ -76,7 +76,7 @@ const handleSubmit = async () => {
   try {
     models.loading = true;
 
-    const { data, error } = await user.postUser(models);
+    const { data, error } = await user.postEmployee(models);
 
     if (error.value) {
       toast.add({

@@ -85,7 +85,7 @@
 
 const props = defineProps({
   modelValue: {
-    type: Object as PropType<IGetUser | IPostUser>,
+    type: Object as PropType<IGetEmployee | IPostEmployee>,
     required: true,
   },
   schema: {

@@ -18,8 +18,8 @@ const sidebarLinks = [
     icon: "fluent:home-24-regular",
   },
   {
-    to: "/admin/usuarios",
-    label: "Usuários",
+    to: "/admin/funcionarios",
+    label: "Funcionários",
     icon: "fluent:person-24-regular",
   },
   {

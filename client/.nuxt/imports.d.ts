@@ -32,9 +32,11 @@ export { injectHead, useHead, useSeoMeta, useHeadSafe, useServerHead, useServerS
 export { default as response } from '../utils/response';
 export { Status, Status } from '../types/EStatus';
 export { ILogin, IDecodeToken } from '../types/IAuth';
+export { IGetEmployee, IPostEmployee, IPutEmployee } from '../types/IEmployee';
 export { IResponse } from '../types/IResponse';
 export { ISidebar } from '../types/ISidebar';
-export { IGetUser, IPostUser, IPutUser } from '../types/IUser';
+export { IGetClient, IPostClient, IPutClient } from '../types/IUsers';
+export { IGetVehicle, IPostVehicle, IPutVehicle } from '../types/IVehicles';
 export { defineShortcuts } from '../node_modules/@nuxt/ui/dist/runtime/composables/defineShortcuts';
 export { useProvideButtonGroup, useInjectButtonGroup } from '../node_modules/@nuxt/ui/dist/runtime/composables/useButtonGroup';
 export { useCarouselScroll } from '../node_modules/@nuxt/ui/dist/runtime/composables/useCarouselScroll';
@@ -48,7 +50,9 @@ export { useTimer } from '../node_modules/@nuxt/ui/dist/runtime/composables/useT
 export { useToast } from '../node_modules/@nuxt/ui/dist/runtime/composables/useToast';
 export { useUI } from '../node_modules/@nuxt/ui/dist/runtime/composables/useUI';
 export { default as useAuth } from '../stores/useAuth';
+export { default as useEmployee } from '../stores/useEmployee';
 export { default as useUser } from '../stores/useUser';
+export { default as useVehicle } from '../stores/useVehicle';
 export { useColorMode } from '../node_modules/@nuxtjs/color-mode/dist/runtime/composables';
 export { defineStore, acceptHMRUpdate, usePinia, storeToRefs } from '../node_modules/@pinia/nuxt/dist/runtime/composables';
 export { useNuxtDevTools } from '../node_modules/@nuxt/devtools/dist/runtime/use-nuxt-devtools';

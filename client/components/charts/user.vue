@@ -35,10 +35,10 @@ use([
   PieChart,
 ]);
 
-const u = useUser();
+const u = useEmployee();
 
 const { data } = await useAsyncData("getUsersGroup", async () => {
-  const all = await u.getUsers();
+  const all = await u.getEmployees();
 
   if (all) {
     return {

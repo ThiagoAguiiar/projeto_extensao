@@ -1,3 +1,5 @@
+import type { IpVersion } from "zod";
+import type { IGetClient, IPostClient, IPutClient } from "~/types/IUsers.ts";
 import handleResponse from "~/utils/response";
 
 export default defineStore("useUser", () => {
@@ -11,7 +13,7 @@ export default defineStore("useUser", () => {
 
   const getUsers = async () => {
     try {
-      const response = await $fetch<IResponse<IGetUser[]>>("admin/usuarios", {
+      const response = await $fetch<IResponse<IGetClient[]>>("admin/clientes", {
         method: "GET",
         headers: auth.getHeaders(),
         baseURL: apiURL,
@@ -25,12 +27,12 @@ export default defineStore("useUser", () => {
     }
   };
 
-  const postUser = async (user: IPostUser) => {
+  const postUser = async (user: IPostClient) => {
     const data = ref<IResponse | null>(null);
     const error = ref<IResponse | null>(null);
 
     try {
-      const response = await $fetch<IResponse>("/admin/usuarios", {
+      const response = await $fetch<IResponse>("/admin/clientes", {
         method: "POST",
         headers: auth.getHeaders(),
         body: { ...user },
@@ -51,7 +53,7 @@ export default defineStore("useUser", () => {
     const error = ref<IResponse | null>(null);
 
     try {
-      const response = await $fetch<IResponse>("/admin/usuarios", {
+      const response = await $fetch<IResponse>("/admin/clientes", {
         method: "DELETE",
         headers: auth.getHeaders(),
         params: { email: email, id: userId },
@@ -69,7 +71,7 @@ export default defineStore("useUser", () => {
 
   const getUserId = async (id: string) => {
     try {
-      return await $fetch<IResponse<IGetUser>>("admin/usuarios/getById", {
+      return await $fetch<IResponse<IGetClient>>("admin/clientes/getById", {
         method: "GET",
         headers: auth.getHeaders(),
         params: { id },
@@ -82,12 +84,12 @@ export default defineStore("useUser", () => {
     }
   };
 
-  const putUser = async (user: IPutUser) => {
+  const putUser = async (user: IPutClient) => {
     const data = ref<IResponse | null>(null);
     const error = ref<IResponse | null>(null);
 
     try {
-      const response = await $fetch<IResponse>("/admin/usuarios", {
+      const response = await $fetch<IResponse>("/admin/clientes", {
         method: "PUT",
         headers: auth.getHeaders(),
         body: user,

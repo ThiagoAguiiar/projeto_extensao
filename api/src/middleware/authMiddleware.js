@@ -19,7 +19,7 @@ const authMiddleware = (req, res, next) => {
 
   if (!decrypt) return status(res, 401, "Token inválido");
 
-  const query = `SELECT token FROM usuario WHERE email = ?`;
+  const query = `SELECT token FROM funcionarios WHERE email = ?`;
 
   connection.query(query, [decrypt.email], (err, result) => {
     if (err) {

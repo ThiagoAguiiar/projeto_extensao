@@ -229,6 +229,7 @@ declare global {
   const useElementHover: typeof import('../../node_modules/@vueuse/core')['useElementHover']
   const useElementSize: typeof import('../../node_modules/@vueuse/core')['useElementSize']
   const useElementVisibility: typeof import('../../node_modules/@vueuse/core')['useElementVisibility']
+  const useEmployee: typeof import('../../stores/useEmployee')['default']
   const useError: typeof import('../../node_modules/nuxt/dist/app/composables/error')['useError']
   const useEventBus: typeof import('../../node_modules/@vueuse/core')['useEventBus']
   const useEventListener: typeof import('../../node_modules/@vueuse/core')['useEventListener']
@@ -443,14 +444,17 @@ declare global {
   export type { ILogin, IDecodeToken } from '../../types/IAuth'
   import('../../types/IAuth')
   // @ts-ignore
+  export type { IGetEmployee, IPostEmployee, IPutEmployee } from '../../types/IEmployee'
+  import('../../types/IEmployee')
+  // @ts-ignore
   export type { IResponse } from '../../types/IResponse'
   import('../../types/IResponse')
   // @ts-ignore
   export type { ISidebar } from '../../types/ISidebar'
   import('../../types/ISidebar')
   // @ts-ignore
-  export type { IGetUser, IPostUser, IPutUser } from '../../types/IUser'
-  import('../../types/IUser')
+  export type { IGetClient, IPostClient, IPutClient } from '../../types/IUsers'
+  import('../../types/IUsers')
   // @ts-ignore
   export type { IGetVehicle, IPostVehicle, IPutVehicle } from '../../types/IVehicles'
   import('../../types/IVehicles')
@@ -687,6 +691,7 @@ declare module 'vue' {
     readonly useElementHover: UnwrapRef<typeof import('../../node_modules/@vueuse/core')['useElementHover']>
     readonly useElementSize: UnwrapRef<typeof import('../../node_modules/@vueuse/core')['useElementSize']>
     readonly useElementVisibility: UnwrapRef<typeof import('../../node_modules/@vueuse/core')['useElementVisibility']>
+    readonly useEmployee: UnwrapRef<typeof import('../../stores/useEmployee')['default']>
     readonly useError: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/error')['useError']>
     readonly useEventBus: UnwrapRef<typeof import('../../node_modules/@vueuse/core')['useEventBus']>
     readonly useEventListener: UnwrapRef<typeof import('../../node_modules/@vueuse/core')['useEventListener']>
