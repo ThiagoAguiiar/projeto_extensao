@@ -9,18 +9,26 @@ export const getFuncionarios = (ativo = null) => {
       let params = [];
 
       if (ativo == null) {
-        query = `SELECT nome, email, ativo, telefone, idFuncionario, especializacao FROM funcionarios`;
+        query = `SELECT nome, email, ativo, telefone, idFuncionario, especializacao, dataContratacao FROM funcionarios`;
       } else {
-        query = `SELECT nome, email, ativo, telefone, idFuncionario, especializacao FROM funcionarios WHERE ativo = ?`;
+        query = `SELECT nome, email, ativo, telefone, idFuncionario, especializacao, dataContratacao FROM funcionarios WHERE ativo = ?`;
         params.push(ativo);
       }
 
       connection.query(query, params, (err, result) => {
         if (err) return reject(err);
-
-        // Mapeia o resultado para alterar o valor de ativo para booleano
+        // Mapeia o resultado para alterar o valor de ativo para booleano e 
+        // converte a data de yyyy-MM-ddT00:00:00Z (ISO 8601) -> dd/MM/aaaa
         result = result.map((item) => {
-          return { ...item, ativo: item.ativo === 1 };
+          const formatDate = (isoDate) => {
+            const date = new Date(isoDate);
+            const day = String(date.getDate()).padStart(2, "0");
+            const month = String(date.getMonth() + 1).padStart(2, "0");
+            const year = date.getFullYear();
+            return `${day}/${month}/${year}`;
+          };
+
+          return { ...item, ativo: item.ativo === 1, dataContratacao: item.dataContratacao ? formatDate(item.dataContratacao) : null };
         });
 
         return resolve(result);
@@ -67,7 +75,7 @@ export const getFuncionarioEmail = (email, ativo = null) => {
 export const getFuncionarioId = (id) => {
   return new Promise((resolve, reject) => {
     try {
-      const query = `SELECT idFuncionario, nome, email, ativo, telefone FROM funcionarios WHERE idFuncionario = ?`;
+      const query = `SELECT idFuncionario, nome, especializacao, email, ativo, telefone FROM funcionarios WHERE idFuncionario = ?`;
 
       connection.query(query, [id], (err, result) => {
         if (err) return reject(err);
@@ -89,9 +97,9 @@ export const getFuncionarioId = (id) => {
 export const putFuncionario = (funcionario) => {
   return new Promise((resolve, reject) => {
     try {
-      const query = "UPDATE funcionarios SET ? WHERE email = ?";
+      const query = "UPDATE funcionarios SET ? WHERE idFuncionario = ?";
 
-      connection.query(query, [funcionario, funcionario.email], (err, result) => {
+      connection.query(query, [funcionario, funcionario.idFuncionario], (err, result) => {
         if (err) return reject(err);
         return resolve(result);
       });
@@ -106,12 +114,14 @@ export const postFuncionario = async (funcionario) => {
   return new Promise((resolve, reject) => {
     try {
       const query =
-        "INSERT INTO funcionarios(nome, email, senha, telefone, ativo, dataCriacao) VALUES(?, ?, ?, ?, ?, ?)";
+        "INSERT INTO funcionarios(nome, especializacao, dataContratacao, email, senha, telefone, ativo, dataCriacao) VALUES(?, ?, ?, ?, ?, ?, ?, ?);";
 
       connection.query(
         query,
         [
           funcionario.nome,
+          funcionario.especializacao,
+          funcionario.dataContratacao,
           funcionario.email,
           hashSenha(funcionario.senha),
           funcionario.telefone,

@@ -6,7 +6,7 @@ import {
   getFuncionarioId,
   putFuncionario,
 } from "../models/funcionarios.js";
-import { vEmail, vInput, vPhone } from "../utils/validators.js";
+import { vDate, vEmail, vInput, vPhone } from "../utils/validators.js";
 import status from "../utils/status.js";
 import sendEmail from "../utils/email.js";
 
@@ -38,13 +38,13 @@ const funcionarioController = () => {
   };
 
   const post = async (req, res) => {
-    const { nome, email, senha, telefone, ativo } = req.body;
+    const { nome, especializacao, dataContratacao, email, senha, telefone, ativo } = req.body;
 
     const validate =
-      vInput(nome) && vInput(senha) && vEmail(email) && vPhone(telefone);
+      vInput(nome) && vInput(senha) && vEmail(email) && vPhone(telefone) && vDate(dataContratacao) && vInput(especializacao);
 
     if (!validate) {
-      return status(res, 400, "Preencha todos os campos são obrigatórios");
+      return status(res, 400, "Preencha todos os campos que são obrigatórios");
     }
 
     const u = await getFuncionarioEmail(email);
@@ -55,6 +55,8 @@ const funcionarioController = () => {
 
     const newUser = await postFuncionario({
       nome,
+      especializacao,
+      dataContratacao,
       email,
       senha,
       telefone,
@@ -66,11 +68,11 @@ const funcionarioController = () => {
       return status(res, 500, "Erro ao cadastrar funcionário. Tente novamente");
     }
 
-    /* await sendEmail(
+    await sendEmail(
       email,
       "Boas vindas ao Léo Oficina Mecânica",
       `Olá, ${nome}. Seu email (${email}) foi cadastrado no sistema "Léo Oficina Mecânica". A sua senha é: ${senha}`
-    ); */
+    );
 
     return status(res, 200, "Funcionário cadastrado com sucesso");
   };
@@ -102,9 +104,9 @@ const funcionarioController = () => {
   };
 
   const put = async (req, res) => {
-    const { nome, email, telefone, ativo, idFuncionario } = req.body;
+    const { nome, especializacao, email, telefone, ativo, idFuncionario } = req.body;
 
-    const validate = vInput(nome) && vEmail(email) && vPhone(telefone);
+    const validate = vInput(nome) && vEmail(email) && vPhone(telefone) && vInput(especializacao);
 
     if (!validate) {
       return status(res, 400, "Preencha toods os campos obrigatórios");
@@ -118,6 +120,7 @@ const funcionarioController = () => {
 
     await putFuncionario({
       nome,
+      especializacao,
       email,
       telefone,
       ativo,

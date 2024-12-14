@@ -1,8 +1,10 @@
 export interface IGetEmployee {
-  dataCriacao: Date;
   email: string;
   idFuncionario: number;
   nome: string;
+  especializacao: string;
+  dataContratacao: string;
+  dataDemissao: string;
   senha: string;
   token: string;
   telefone: string;
@@ -13,15 +15,19 @@ export interface IGetEmployee {
 export interface IPostEmployee {
   email: string;
   nome: string;
+  especializacao: string;
+  dataContratacao: string;
   senha: string;
   telefone: string;
   ativo: boolean;
+  dataCriacao: Date
 }
 
 export interface IPutEmployee {
   email: string;
   idFuncionario: number;
   nome: string;
+  especializacao: string;
   telefone: string;
   ativo: boolean;
 }

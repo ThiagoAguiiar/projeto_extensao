@@ -35,10 +35,10 @@ import type { IGetEmployee } from '~/types/IEmployee';
 const u = useEmployee();
 const toast = useToast();
 
-const { data, refresh } = await useLazyAsyncData("getUsers", () => {
+const { data, refresh } = await useLazyAsyncData("getEmployees", () => {
   return u.getEmployees();
+  
 });
-
 const columns = [
   {
     label: "Status",
@@ -48,6 +48,14 @@ const columns = [
     label: "Nome",
     key: "nome",
     sortable: true,
+  },
+  {
+    label: "Data de Contratação",
+    key: "dataContratacao"
+  },
+  {
+    label: "Especialização",
+    key: "especializacao"
   },
   {
     label: "Email",

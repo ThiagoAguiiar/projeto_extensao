@@ -1,6 +1,6 @@
 <template>
   <div class="w-full h-full flex py-7">
-    <UsuariosAdd v-model="u.addUser" />
+    <ClientesAdd v-model="u.addUser" />
     <BaseSubmenu :links="links" />
     <NuxtPage />
   </div>

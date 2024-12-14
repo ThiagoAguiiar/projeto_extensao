@@ -5,8 +5,6 @@ export interface IGetClient {
   nome: string;
   telefone: string;
   endereco: string;
-  //ativo: boolean;
-  //ultimoLogin: null | Date;
 }
 
 export interface IPostClient {
@@ -14,7 +12,6 @@ export interface IPostClient {
   nome: string;
   telefone: string;
   endereco: string;
-  //ativo: boolean;
 }
 
 export interface IPutClient {
@@ -23,5 +20,4 @@ export interface IPutClient {
   nome: string;
   telefone: string;
   endereco: string;
-  //ativo: boolean;
 }

@@ -292,6 +292,7 @@ declare global {
   const usePageLeave: typeof import('../../node_modules/@vueuse/core')['usePageLeave']
   const useParallax: typeof import('../../node_modules/@vueuse/core')['useParallax']
   const useParentElement: typeof import('../../node_modules/@vueuse/core')['useParentElement']
+  const usePart: typeof import('../../stores/usePart')['default']
   const usePerformanceObserver: typeof import('../../node_modules/@vueuse/core')['usePerformanceObserver']
   const usePermission: typeof import('../../node_modules/@vueuse/core')['usePermission']
   const usePinia: typeof import('../../node_modules/@pinia/nuxt/dist/runtime/composables')['usePinia']
@@ -446,6 +447,9 @@ declare global {
   // @ts-ignore
   export type { IGetEmployee, IPostEmployee, IPutEmployee } from '../../types/IEmployee'
   import('../../types/IEmployee')
+  // @ts-ignore
+  export type { IGetPart, IPostPart, IPutPart } from '../../types/IParts'
+  import('../../types/IParts')
   // @ts-ignore
   export type { IResponse } from '../../types/IResponse'
   import('../../types/IResponse')
@@ -754,6 +758,7 @@ declare module 'vue' {
     readonly usePageLeave: UnwrapRef<typeof import('../../node_modules/@vueuse/core')['usePageLeave']>
     readonly useParallax: UnwrapRef<typeof import('../../node_modules/@vueuse/core')['useParallax']>
     readonly useParentElement: UnwrapRef<typeof import('../../node_modules/@vueuse/core')['useParentElement']>
+    readonly usePart: UnwrapRef<typeof import('../../stores/usePart')['default']>
     readonly usePerformanceObserver: UnwrapRef<typeof import('../../node_modules/@vueuse/core')['usePerformanceObserver']>
     readonly usePermission: UnwrapRef<typeof import('../../node_modules/@vueuse/core')['usePermission']>
     readonly usePinia: UnwrapRef<typeof import('../../node_modules/@pinia/nuxt/dist/runtime/composables')['usePinia']>

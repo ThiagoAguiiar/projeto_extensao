@@ -11,6 +11,14 @@
           <UInput v-model="funcionario.data.nome" :disabled="loading" class="w-[450px] max-[450px]:w-full" />
         </BaseGroup>
 
+        <BaseGroup name="especializacao" label="Especialização" hint="Especialização do funcionário">
+          <UInput v-model="funcionario.data.especializacao" :disabled="loading" class="w-[450px] max-[450px]:w-full"/>
+        </BaseGroup>
+
+        <!-- <BaseGroup name="dataContratacao" label="Data de contratação" hint="Data em que o funcionário foi admitido">
+          <UInput v-model="funcionario.data.dataContratacao" :disabled="loading" class="w-[450px] max-[450px]:w-full"/>
+        </BaseGroup> -->
+
         <BaseGroup name="email" label="Email" hint="Email do usuário" required>
           <UInput v-model="funcionario.data.email" :disabled="loading" class="w-[450px] max-[450px]:w-full" />
         </BaseGroup>
@@ -69,6 +77,7 @@ const handleSubmit = async () => {
         ativo: funcionario.value.data.ativo,
         email: funcionario.value.data.email,
         nome: funcionario.value.data.nome,
+        especializacao: funcionario.value.data.especializacao,
         telefone: funcionario.value.data.telefone,
         idFuncionario: funcionario.value.data.idFuncionario,
       });

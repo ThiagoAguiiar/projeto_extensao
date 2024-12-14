@@ -22,10 +22,6 @@
           <UButton color="white" square icon="ph:dots-three-bold" />
         </UDropdown>
       </template>
-
-      <!-- <template #ativo-data="{ row }">
-        <TableBullet :ativo="row.ativo" />
-      </template> -->
     </UTable>
 
     <p v-else>Nenhum resultado encontrado</p>
@@ -43,10 +39,6 @@ const { data, refresh } = await useLazyAsyncData("getUsers", () => {
 });
 
 const columns = [
-  /* {
-    label: "Status",
-    key: "ativo",
-  }, */
   {
     label: "Nome",
     key: "nome",

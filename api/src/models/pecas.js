@@ -1,12 +1,12 @@
 import connection from "../config/db.js";
 
 /* [GET] */
-export const getVeiculos = (ativo = null) => {
+export const getPecas = () => {
     return new Promise((resolve, reject) => {
         try {
             let query;
 
-            query = `SELECT * FROM veiculo;`;
+            query = `SELECT * FROM pecas;`;
 
             connection.query(query, (err, result) => {
                 if (err) return reject(err);
@@ -20,14 +20,14 @@ export const getVeiculos = (ativo = null) => {
 };
 
 /* [GET] */
-export const getVeiculoPlaca = (placa) => {
+export const getPecaId = (idPeca) => {
     return new Promise((resolve, reject) => {
         try {
             let query;
 
-            query = `SELECT * FROM veiculo WHERE placa = ?;`
+            query = `SELECT * FROM pecas WHERE idPeca = ?;`
 
-            connection.query(query, [placa], (err, result) => {
+            connection.query(query, [idPeca], (err, result) => {
                 if (err) return reject(err);
 
                 if (result.length > 0) {
@@ -43,12 +43,12 @@ export const getVeiculoPlaca = (placa) => {
 };
 
 /* [PUT] */
-export const putVeiculo = (veiculo) => {
+export const putPeca = (peca) => {
     return new Promise((resolve, reject) => {
         try {
-            const query = "UPDATE veiculo SET ? WHERE placa = ?";
+            const query = "UPDATE pecas SET ? WHERE idPeca = ?";
 
-            connection.query(query, [veiculo, veiculo.placa], (err, result) => {
+            connection.query(query, [peca, peca.idPeca], (err, result) => {
                 if (err) return reject(err);
                 return resolve(result);
             });
@@ -59,22 +59,18 @@ export const putVeiculo = (veiculo) => {
 };
 
 /* [POST] */
-export const postVeiculo = async (veiculo) => {
+export const postPeca = async (peca) => {
     return new Promise((resolve, reject) => {
         try {
             const query =
-                "INSERT INTO veiculo(idCliente, nomeProp, modelo, placa, ano, motor, frota) VALUES(?, ?, ?, ?, ?, ?, ?)";
+                "INSERT INTO pecas(nome, quantidade, valor) VALUES(?, ?, ?)";
 
             connection.query(
                 query,
                 [
-                    veiculo.idCliente,
-                    veiculo.nomeProp,
-                    veiculo.modelo,
-                    veiculo.placa,
-                    veiculo.ano,
-                    veiculo.motor,
-                    veiculo.frota
+                    peca.nome,
+                    peca.quantidade,
+                    peca.valor,
                 ],
                 (err, result) => {
                     if (err) return reject(err);
@@ -88,12 +84,12 @@ export const postVeiculo = async (veiculo) => {
 };
 
 /* [DELETE] */
-export const deleteVeiculo = (placa) => {
+export const deletePeca = (idPeca) => {
     return new Promise((resolve, reject) => {
         try {
-            const query = "DELETE FROM veiculo WHERE placa = ?";
+            const query = "DELETE FROM pecas WHERE idPeca = ?";
 
-            connection.query(query, [placa], (err, result) => {
+            connection.query(query, [idPeca], (err, result) => {
                 if (err) return reject(err);
                 return resolve(result);
             });

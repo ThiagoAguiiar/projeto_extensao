@@ -5,7 +5,7 @@ import {
     postVeiculo,
     putVeiculo,
   } from "../models/veiculos.js";
-  import { vEmail, vInput, vPhone } from "../utils/validators.js"; 
+  import {vInput} from "../utils/validators.js"; 
   import status from "../utils/status.js";
   
   const veiculoController = () => {
@@ -35,12 +35,14 @@ import {
     };
   
     const post = async (req, res) => {
-      const { idCliente, placa, modelo, ano, motor, cor, frota } = req.body;
+      const { idCliente, nomeProp, placa, modelo, ano, motor, frota } = req.body;
+
+      console.log(req.body)
   
-      const validate = vInput(idCliente) && vInput(placa) && vInput(modelo) && vInput(ano) && vInput(motor) && vInput(cor) && vInput(frota);
+      const validate = vInput(placa) && vInput(modelo) && vInput(motor) && vInput(frota) && vInput(nomeProp);
   
       if (!validate) {
-        return status(res, 400, "Preencha todos os campos são obrigatórios");
+        return status(res, 400, "Preencha todos os campos que são obrigatórios");
       }
   
       const u = await getVeiculoPlaca(placa);
@@ -51,11 +53,11 @@ import {
   
       const newVehicle = await postVeiculo({
         idCliente,
+        nomeProp,
         placa,
         modelo,
         ano,
         motor,
-        cor,
         frota
       });
   
@@ -67,6 +69,7 @@ import {
     };
   
     const _delete = async (req, res) => {
+      console.log(req.body)
       const { placa } = req.query;
   
       if (!placa) {
@@ -89,9 +92,10 @@ import {
     };
   
     const put = async (req, res) => {
-      const { idCliente, placa, modelo, ano, motor, cor, frota } = req.body;
+      console.log(req.body)
+      const { idCliente, placa, modelo, ano, motor, frota } = req.body;
   
-      const validate = vInput(idCliente) && vInput(placa) && vInput(modelo) && vInput(ano) && vInput(motor) && vInput(cor) && vInput(frota);
+      const validate = vInput(placa) && vInput(modelo) && vInput(motor) && vInput(frota);
   
       if (!validate) {
         return status(res, 400, "Preencha todos os campos obrigatórios");
@@ -109,7 +113,6 @@ import {
         modelo,
         ano,
         motor,
-        cor,
         frota
       });
   

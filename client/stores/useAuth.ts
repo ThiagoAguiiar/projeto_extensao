@@ -5,6 +5,7 @@ export default defineStore("useAuth", () => {
   const runtime = useRuntimeConfig();
 
   const login = async (email: string, password: string) => {
+    console.log(password)
     const error = ref<IResponse | null>(null);
     const data = ref<IResponse | null>(null);
 

@@ -2,7 +2,7 @@
   <div class="px-5 flex-1">
     <div v-if="cliente && cliente.data" class="space-y-4">
       <div class="px-5">
-        <p class="text-sm text-gray-500">Editar informações de</p>
+        <p class="text-sm text-gray-500">Editar informações do cliente</p>
         <h2 class="text-lg">{{ cliente?.data.nome }}</h2>
       </div>
 
@@ -10,7 +10,7 @@
         <BaseGroup
           name="nome"
           label="Nome"
-          hint="Nome de usuário disponível no sistema"
+          hint="Nome do cliente"
           required
         >
           <UInput
@@ -23,7 +23,7 @@
         <BaseGroup
           name="email"
           label="Email"
-          hint="Email de acesso ao sistema"
+          hint="Email pessoal ou corporativo do cliente"
           required
         >
           <UInput
@@ -36,7 +36,7 @@
         <BaseGroup
           name="telefone"
           label="Telefone"
-          hint="Informação básica para contato"
+          hint="Telefone do cliente para contato rápido"
           required
         >
           <UInput
@@ -60,20 +60,6 @@
           >
           </UInput>
         </BaseGroup>
-
-        <!-- <BaseGroup
-          name="ativo"
-          label="Status"
-          hint='Status do usuário. Ele só poderá acessar o sistema na condição de "ativo"'
-          required
-        >
-          <div class="w-[450px] max-[450px]:w-full">
-            <UToggle v-model="cliente.data.ativo" />
-            <span class="inline-block ml-2.5 text-sm">
-              {{ cliente.data.ativo ? "Ativo" : "Inativo" }}
-            </span>
-          </div>
-        </BaseGroup> -->
 
         <div class="w-full flex items-center justify-end gap-x-2.5 mt-5">
           <UButton

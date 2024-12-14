@@ -12,10 +12,6 @@
                     <UButton color="white" square icon="ph:dots-three-bold" />
                 </UDropdown>
             </template>
-
-            <!-- <template #ativo-data="{ row }">
-                <TableBullet :ativo="row.ativo" />
-            </template> -->
         </UTable>
 
         <p v-else>Nenhum resultado encontrado</p>
@@ -54,10 +50,6 @@ const columns = [
     {
         label: "Motor",
         key: "motor"
-    },
-    {
-        label: "Cor",
-        key: "cor"
     },
     {
     label: "Ações",

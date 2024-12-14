@@ -38,10 +38,10 @@ import {
     };
   
     const post = async (req, res) => {
-      const { nome, email, telefone, /*ativo*/ } = req.body;
+      const { nome, email, telefone, endereco } = req.body;
   
       const validate =
-        vInput(nome) && vEmail(email) && vPhone(telefone);
+        vInput(nome) && vEmail(email) && vPhone(telefone) && vInput(endereco);
   
       if (!validate) {
         return status(res, 400, "Preencha todos os campos são obrigatórios");
@@ -58,6 +58,7 @@ import {
         email,
         telefone,
         dataCriacao: new Date(),
+        endereco: endereco
       });
   
       if (!newUser) {
@@ -103,8 +104,6 @@ import {
       const { nome, email, telefone, idCliente, endereco } = req.body;
   
       const validate = vInput(nome) && vEmail(email) && vPhone(telefone) && vInput(endereco);
-
-      console.log(validate)
   
       if (!validate) {
         return status(res, 400, "Preencha todos os campos obrigatórios");

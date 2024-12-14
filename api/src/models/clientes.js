@@ -86,12 +86,11 @@ export const getClienteId = (id) => {
 
 /* [PUT] */
 export const putCliente = (cliente) => {
-  console.log(cliente)
   return new Promise((resolve, reject) => {
     try {
-      const query = "UPDATE cliente SET ? WHERE email = ?";
+      const query = "UPDATE cliente SET ? WHERE idCliente = ?";
 
-      connection.query(query, [cliente, cliente.email], (err, result) => {
+      connection.query(query, [cliente, cliente.idCliente], (err, result) => {
         if (err) return reject(err);
         return resolve(result);
       });
@@ -103,6 +102,7 @@ export const putCliente = (cliente) => {
 
 /* [POST] */
 export const postCliente = async (cliente) => {
+  console.log(cliente)
   return new Promise((resolve, reject) => {
     try {
       const query =
